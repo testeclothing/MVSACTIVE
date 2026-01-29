@@ -8,9 +8,9 @@ const modules = [
     icon: Droplets,
     beforeLabel: 'Dry Dock',
     afterLabel: 'Deep Ocean',
-    // Left: img1 | Right: img11
-    imageBefore: '/images/img1.jpeg',
-    imageAfter: '/images/img11.png',
+    // Swapped: img11 is Before (Warehouse), img1 is After (Ocean)
+    imageBefore: '/images/img11.png',
+    imageAfter: '/images/img1.jpeg',
     description: 'Proprietary algorithm that separates the vessel from concrete/cradles and composites it into a physics-accurate ocean plate.',
   },
   {
@@ -19,9 +19,9 @@ const modules = [
     icon: Sun,
     beforeLabel: 'Overcast',
     afterLabel: 'Golden Hour',
-    // Left: img2 | Right: img22
-    imageBefore: '/images/img2.jpeg',
-    imageAfter: '/images/img22.png',
+    // Swapped: img22 is Before, img2 is After
+    imageBefore: '/images/img22.png',
+    imageAfter: '/images/img2.jpeg',
     description: 'Full environmental replacement. We delete grey skies and flat lighting, synthesizing "Golden Hour" solar coordinates.',
   },
   {
@@ -30,9 +30,9 @@ const modules = [
     icon: Layers,
     beforeLabel: 'Empty/Dated',
     afterLabel: 'Modern Luxury',
-    // Left: img3 | Right: 33img
-    imageBefore: '/images/img3.jpeg',
-    imageAfter: '/images/33img.png',
+    // Swapped: 33img is Before, img3 is After
+    imageBefore: '/images/33img.png',
+    imageAfter: '/images/img3.jpeg',
     description: 'Digitally reupholster furniture, declutter surfaces, and stage lifestyle elements to modernize older inventory.',
   },
   {
@@ -41,9 +41,9 @@ const modules = [
     icon: Moon,
     beforeLabel: 'Daylight',
     afterLabel: 'Evening Party',
-    // Left: img4 | Right: img44
-    imageBefore: '/images/img4.jpeg',
-    imageAfter: '/images/img44.png',
+    // Swapped: img44 is Before, img4 is After
+    imageBefore: '/images/img44.png',
+    imageAfter: '/images/img4.jpeg',
     description: 'We turn lights on. Transforming standard day shots into "Evening Entertainment" setups with warm interior glows and underwater lights.',
   },
   {
@@ -52,9 +52,9 @@ const modules = [
     icon: Eraser,
     beforeLabel: 'Cluttered',
     afterLabel: 'Pristine',
-    // Left: img5 | Right: img55
-    imageBefore: '/images/img5.jpeg',
-    imageAfter: '/images/img55.png',
+    // Swapped: img55 is Before, img5 is After
+    imageBefore: '/images/img55.png',
+    imageAfter: '/images/img5.jpeg',
     description: 'AI-driven removal of fenders, hoses, crew members, and neighboring boats to isolate the asset in perfect condition.',
   },
 ];

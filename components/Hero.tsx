@@ -78,9 +78,9 @@ const Hero: React.FC = () => {
             <div className="lg:col-span-7 w-full flex-grow lg:flex-grow-0 lg:h-full flex items-center justify-center relative min-h-0 opacity-0 animate-fade-in delay-500">
                 <div className="relative w-full h-full lg:aspect-[16/9] rounded-lg overflow-hidden border border-dark/10 dark:border-white/10 shadow-2xl bg-[#0a0a0a]">
                     
-                    {/* Background (After) */}
+                    {/* Background (After - Synthesized) */}
                     <img 
-                        src="img1.jpeg" 
+                        src="/images/img1.jpeg" 
                         alt="MVS Output"
                         className="absolute inset-0 w-full h-full object-cover saturate-[1.2]" 
                     />
@@ -90,10 +90,10 @@ const Hero: React.FC = () => {
                         MVS Synthesized
                     </div>
 
-                    {/* Foreground (Before) - Clipped */}
+                    {/* Foreground (Before - Raw Dock) - Clipped */}
                     <div className="absolute inset-0 animate-scanner-clip bg-gray-100 dark:bg-[#050505]">
                         <img 
-                            src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=2070" 
+                            src="/images/img11.png" 
                             alt="Dock State"
                             className="w-full h-full object-cover brightness-75 opacity-90" 
                         />

@@ -1,6 +1,121 @@
-import React, { useState } from 'react';
-import ComparisonSlider from './ComparisonSlider';
-import { Layers, Droplets, Sun, Moon, Eraser, ScanLine, ArrowRight } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Layers, Droplets, Sun, Moon, Eraser, ScanLine, ArrowRight, MoveHorizontal } from 'lucide-react';
+
+// --- EMBEDDED COMPARISON SLIDER COMPONENT ---
+// This replaces the external import to ensure it works with the new image pairs.
+interface ComparisonSliderProps {
+  imageBefore: string;
+  imageAfter: string;
+  labelBefore: string;
+  labelAfter: string;
+  aspectRatio: string;
+}
+
+const ComparisonSlider: React.FC<ComparisonSliderProps> = ({ 
+  imageBefore, 
+  imageAfter, 
+  labelBefore, 
+  labelAfter,
+  aspectRatio 
+}) => {
+  const [sliderPosition, setSliderPosition] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMove = useCallback((clientX: number) => {
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const percentage = (x / rect.width) * 100;
+      setSliderPosition(percentage);
+    }
+  }, []);
+
+  const onMouseDown = () => setIsDragging(true);
+  const onTouchStart = () => setIsDragging(true);
+
+  useEffect(() => {
+    const onMouseUp = () => setIsDragging(false);
+    const onMouseMove = (e: MouseEvent) => {
+      if (isDragging) handleMove(e.clientX);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (isDragging) handleMove(e.touches[0].clientX);
+    };
+    const onTouchEnd = () => setIsDragging(false);
+
+    if (isDragging) {
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+      window.addEventListener('touchmove', onTouchMove);
+      window.addEventListener('touchend', onTouchEnd);
+    }
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [isDragging, handleMove]);
+
+  // Handle click to jump
+  const handleClick = (e: React.MouseEvent) => {
+    handleMove(e.clientX);
+  };
+
+  return (
+    <div 
+      ref={containerRef}
+      className={`relative w-full ${aspectRatio} select-none cursor-ew-resize group overflow-hidden`}
+      onMouseDown={onMouseDown}
+      onTouchStart={onTouchStart}
+      onClick={handleClick}
+    >
+      {/* AFTER IMAGE (Background) */}
+      <img 
+        src={imageAfter} 
+        alt="After" 
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        draggable={false}
+      />
+
+      {/* BEFORE IMAGE (Foreground - Clipped) */}
+      <div 
+        className="absolute top-0 left-0 h-full overflow-hidden"
+        style={{ width: `${sliderPosition}%` }}
+      >
+        <img 
+          src={imageBefore} 
+          alt="Before" 
+          className="absolute top-0 left-0 max-w-none h-full object-cover"
+          style={{ width: containerRef.current ? containerRef.current.offsetWidth : '100%' }}
+          draggable={false}
+        />
+      </div>
+
+      {/* SLIDER HANDLE */}
+      <div 
+        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+        style={{ left: `${sliderPosition}%` }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg border border-gray-200">
+          <MoveHorizontal className="w-4 h-4 text-gray-600" />
+        </div>
+      </div>
+
+      {/* LABELS */}
+      <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 text-xs font-bold rounded-sm border border-white/20 pointer-events-none z-10">
+        {labelBefore}
+      </div>
+      <div className="absolute bottom-4 right-4 bg-neon/80 text-dark px-3 py-1 text-xs font-bold rounded-sm border border-white/20 pointer-events-none z-10">
+        {labelAfter}
+      </div>
+    </div>
+  );
+};
+// --- END COMPARISON SLIDER COMPONENT ---
+
 
 const modules = [
   {
@@ -9,7 +124,7 @@ const modules = [
     icon: Droplets,
     beforeLabel: 'Dry Dock',
     afterLabel: 'Deep Ocean',
-    // Pair 1
+    // Pair 1: img1 (before) -> img11 (after)
     imageBefore: '/images/img1.jpeg',
     imageAfter: '/images/img11.png',
     description: 'Proprietary algorithm that separates the vessel from concrete/cradles and composites it into a physics-accurate ocean plate.',
@@ -20,7 +135,7 @@ const modules = [
     icon: Sun,
     beforeLabel: 'Overcast',
     afterLabel: 'Golden Hour',
-    // Pair 2
+    // Pair 2: img2 (before) -> img22 (after)
     imageBefore: '/images/img2.jpeg',
     imageAfter: '/images/img22.png',
     description: 'Full environmental replacement. We delete grey skies and flat lighting, synthesizing "Golden Hour" solar coordinates.',
@@ -31,7 +146,7 @@ const modules = [
     icon: Layers,
     beforeLabel: 'Empty/Dated',
     afterLabel: 'Modern Luxury',
-    // Pair 3
+    // Pair 3: img3 (before) -> 33img (after) - Note the name 33img.png
     imageBefore: '/images/img3.jpeg',
     imageAfter: '/images/33img.png',
     description: 'Digitally reupholster furniture, declutter surfaces, and stage lifestyle elements to modernize older inventory.',
@@ -42,7 +157,7 @@ const modules = [
     icon: Moon,
     beforeLabel: 'Daylight',
     afterLabel: 'Evening Party',
-    // Pair 4
+    // Pair 4: img4 (before) -> img44 (after)
     imageBefore: '/images/img4.jpeg',
     imageAfter: '/images/img44.png',
     description: 'We turn lights on. Transforming standard day shots into "Evening Entertainment" setups with warm interior glows and underwater lights.',
@@ -53,7 +168,7 @@ const modules = [
     icon: Eraser,
     beforeLabel: 'Cluttered',
     afterLabel: 'Pristine',
-    // Pair 5
+    // Pair 5: img5 (before) -> img55 (after)
     imageBefore: '/images/img5.jpeg',
     imageAfter: '/images/img55.png',
     description: 'AI-driven removal of fenders, hoses, crew members, and neighboring boats to isolate the asset in perfect condition.',

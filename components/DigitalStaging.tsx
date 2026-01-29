@@ -1,121 +1,5 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Layers, Droplets, Sun, Moon, Eraser, ScanLine, ArrowRight, MoveHorizontal } from 'lucide-react';
-
-// --- EMBEDDED COMPARISON SLIDER COMPONENT ---
-// This replaces the external import to ensure it works with the new image pairs.
-interface ComparisonSliderProps {
-  imageBefore: string;
-  imageAfter: string;
-  labelBefore: string;
-  labelAfter: string;
-  aspectRatio: string;
-}
-
-const ComparisonSlider: React.FC<ComparisonSliderProps> = ({ 
-  imageBefore, 
-  imageAfter, 
-  labelBefore, 
-  labelAfter,
-  aspectRatio 
-}) => {
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const handleMove = useCallback((clientX: number) => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-      const percentage = (x / rect.width) * 100;
-      setSliderPosition(percentage);
-    }
-  }, []);
-
-  const onMouseDown = () => setIsDragging(true);
-  const onTouchStart = () => setIsDragging(true);
-
-  useEffect(() => {
-    const onMouseUp = () => setIsDragging(false);
-    const onMouseMove = (e: MouseEvent) => {
-      if (isDragging) handleMove(e.clientX);
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      if (isDragging) handleMove(e.touches[0].clientX);
-    };
-    const onTouchEnd = () => setIsDragging(false);
-
-    if (isDragging) {
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
-      window.addEventListener('touchmove', onTouchMove);
-      window.addEventListener('touchend', onTouchEnd);
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', onTouchEnd);
-    };
-  }, [isDragging, handleMove]);
-
-  // Handle click to jump
-  const handleClick = (e: React.MouseEvent) => {
-    handleMove(e.clientX);
-  };
-
-  return (
-    <div 
-      ref={containerRef}
-      className={`relative w-full ${aspectRatio} select-none cursor-ew-resize group overflow-hidden`}
-      onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}
-      onClick={handleClick}
-    >
-      {/* AFTER IMAGE (Background) */}
-      <img 
-        src={imageAfter} 
-        alt="After" 
-        className="absolute top-0 left-0 w-full h-full object-cover"
-        draggable={false}
-      />
-
-      {/* BEFORE IMAGE (Foreground - Clipped) */}
-      <div 
-        className="absolute top-0 left-0 h-full overflow-hidden"
-        style={{ width: `${sliderPosition}%` }}
-      >
-        <img 
-          src={imageBefore} 
-          alt="Before" 
-          className="absolute top-0 left-0 max-w-none h-full object-cover"
-          style={{ width: containerRef.current ? containerRef.current.offsetWidth : '100%' }}
-          draggable={false}
-        />
-      </div>
-
-      {/* SLIDER HANDLE */}
-      <div 
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize z-20 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-        style={{ left: `${sliderPosition}%` }}
-      >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-lg border border-gray-200">
-          <MoveHorizontal className="w-4 h-4 text-gray-600" />
-        </div>
-      </div>
-
-      {/* LABELS */}
-      <div className="absolute bottom-4 left-4 bg-black/50 backdrop-blur-sm text-white px-3 py-1 text-xs font-bold rounded-sm border border-white/20 pointer-events-none z-10">
-        {labelBefore}
-      </div>
-      <div className="absolute bottom-4 right-4 bg-neon/80 text-dark px-3 py-1 text-xs font-bold rounded-sm border border-white/20 pointer-events-none z-10">
-        {labelAfter}
-      </div>
-    </div>
-  );
-};
-// --- END COMPARISON SLIDER COMPONENT ---
-
+import React, { useState } from 'react';
+import { Layers, Droplets, Sun, Moon, Eraser, ScanLine, ArrowRight } from 'lucide-react';
 
 const modules = [
   {
@@ -124,7 +8,7 @@ const modules = [
     icon: Droplets,
     beforeLabel: 'Dry Dock',
     afterLabel: 'Deep Ocean',
-    // Pair 1: img1 (before) -> img11 (after)
+    // Left: img1 | Right: img11
     imageBefore: '/images/img1.jpeg',
     imageAfter: '/images/img11.png',
     description: 'Proprietary algorithm that separates the vessel from concrete/cradles and composites it into a physics-accurate ocean plate.',
@@ -135,7 +19,7 @@ const modules = [
     icon: Sun,
     beforeLabel: 'Overcast',
     afterLabel: 'Golden Hour',
-    // Pair 2: img2 (before) -> img22 (after)
+    // Left: img2 | Right: img22
     imageBefore: '/images/img2.jpeg',
     imageAfter: '/images/img22.png',
     description: 'Full environmental replacement. We delete grey skies and flat lighting, synthesizing "Golden Hour" solar coordinates.',
@@ -146,7 +30,7 @@ const modules = [
     icon: Layers,
     beforeLabel: 'Empty/Dated',
     afterLabel: 'Modern Luxury',
-    // Pair 3: img3 (before) -> 33img (after) - Note the name 33img.png
+    // Left: img3 | Right: 33img
     imageBefore: '/images/img3.jpeg',
     imageAfter: '/images/33img.png',
     description: 'Digitally reupholster furniture, declutter surfaces, and stage lifestyle elements to modernize older inventory.',
@@ -157,7 +41,7 @@ const modules = [
     icon: Moon,
     beforeLabel: 'Daylight',
     afterLabel: 'Evening Party',
-    // Pair 4: img4 (before) -> img44 (after)
+    // Left: img4 | Right: img44
     imageBefore: '/images/img4.jpeg',
     imageAfter: '/images/img44.png',
     description: 'We turn lights on. Transforming standard day shots into "Evening Entertainment" setups with warm interior glows and underwater lights.',
@@ -168,7 +52,7 @@ const modules = [
     icon: Eraser,
     beforeLabel: 'Cluttered',
     afterLabel: 'Pristine',
-    // Pair 5: img5 (before) -> img55 (after)
+    // Left: img5 | Right: img55
     imageBefore: '/images/img5.jpeg',
     imageAfter: '/images/img55.png',
     description: 'AI-driven removal of fenders, hoses, crew members, and neighboring boats to isolate the asset in perfect condition.',
@@ -206,7 +90,7 @@ const DigitalStaging: React.FC = () => {
             {/* MAIN INTERFACE CONTAINER */}
             <div className="flex flex-col gap-6 lg:gap-8 max-w-6xl mx-auto">
                 
-                {/* 1. The Viewport (Cinema Screen) */}
+                {/* 1. The Viewport (Cinema Screen) - STATIC SPLIT VIEW */}
                 <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] bg-black rounded-lg border border-gray-300 dark:border-white/10 shadow-2xl overflow-hidden group">
                     
                     {/* Top HUD Bar */}
@@ -224,19 +108,40 @@ const DigitalStaging: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* The Comparison Component */}
-                    <ComparisonSlider 
-                        key={activeModule.id}
-                        imageBefore={activeModule.imageBefore}
-                        imageAfter={activeModule.imageAfter}
-                        labelBefore={activeModule.beforeLabel}
-                        labelAfter={activeModule.afterLabel}
-                        aspectRatio="aspect-[4/3] lg:aspect-[21/9]"
-                    />
+                    {/* STATIC SIDE-BY-SIDE IMAGES */}
+                    <div className="absolute inset-0 flex w-full h-full">
+                        
+                        {/* LEFT SIDE: BEFORE */}
+                        <div className="w-1/2 h-full relative border-r border-white/20 overflow-hidden">
+                            <img 
+                                src={activeModule.imageBefore} 
+                                alt={activeModule.beforeLabel} 
+                                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                            />
+                            <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 text-xs font-bold rounded-sm border border-white/10 z-20">
+                                <span className="text-gray-400 text-[10px] mr-2">BEFORE</span>
+                                {activeModule.beforeLabel}
+                            </div>
+                        </div>
 
-                    {/* Bottom HUD / Description Overlay */}
-                    <div className="absolute bottom-6 left-6 right-6 z-30 pointer-events-none">
-                        <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-sm p-4 md:p-6 max-w-2xl transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+                        {/* RIGHT SIDE: AFTER */}
+                        <div className="w-1/2 h-full relative overflow-hidden">
+                            <img 
+                                src={activeModule.imageAfter} 
+                                alt={activeModule.afterLabel} 
+                                className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                            />
+                            <div className="absolute bottom-4 right-4 bg-neon/90 text-dark px-3 py-1 text-xs font-bold rounded-sm border border-white/10 z-20 shadow-[0_0_10px_rgba(204,243,129,0.2)]">
+                                <span className="text-dark/60 text-[10px] mr-2">AFTER</span>
+                                {activeModule.afterLabel}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Bottom HUD / Description Overlay - Centered on Hover */}
+                    <div className="absolute bottom-6 left-0 right-0 z-30 pointer-events-none flex justify-center">
+                        <div className="bg-black/80 backdrop-blur-md border border-white/10 rounded-sm p-4 md:p-6 max-w-2xl transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 mx-4">
                              <div className="flex items-start gap-4">
                                 <div className="w-1 h-10 bg-neon shadow-[0_0_15px_#CCF381]"></div>
                                 <div>
@@ -251,7 +156,7 @@ const DigitalStaging: React.FC = () => {
 
                 </div>
 
-                {/* 2. The Lens Rack (Selector Strip) - Updated to Grid */}
+                {/* 2. The Lens Rack (Selector Strip) */}
                 <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4">
                     {modules.map((mod) => (
                         <button

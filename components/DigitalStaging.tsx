@@ -9,8 +9,9 @@ const modules = [
     icon: Droplets,
     beforeLabel: 'Dry Dock',
     afterLabel: 'Deep Ocean',
-    // Dry dock vs Ocean
-    image: 'https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=2070',
+    // Pair 1
+    imageBefore: '/images/img1.jpeg',
+    imageAfter: '/images/img11.png',
     description: 'Proprietary algorithm that separates the vessel from concrete/cradles and composites it into a physics-accurate ocean plate.',
   },
   {
@@ -19,8 +20,9 @@ const modules = [
     icon: Sun,
     beforeLabel: 'Overcast',
     afterLabel: 'Golden Hour',
-    // Grey sky vs Sunset
-    image: 'https://images.unsplash.com/photo-1544641666-41f237f3743c?q=80&w=2070',
+    // Pair 2
+    imageBefore: '/images/img2.jpeg',
+    imageAfter: '/images/img22.png',
     description: 'Full environmental replacement. We delete grey skies and flat lighting, synthesizing "Golden Hour" solar coordinates.',
   },
   {
@@ -29,8 +31,9 @@ const modules = [
     icon: Layers,
     beforeLabel: 'Empty/Dated',
     afterLabel: 'Modern Luxury',
-    // Empty interior vs Furnished
-    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2070',
+    // Pair 3
+    imageBefore: '/images/img3.jpeg',
+    imageAfter: '/images/33img.png',
     description: 'Digitally reupholster furniture, declutter surfaces, and stage lifestyle elements to modernize older inventory.',
   },
   {
@@ -39,8 +42,9 @@ const modules = [
     icon: Moon,
     beforeLabel: 'Daylight',
     afterLabel: 'Evening Party',
-    // Day vs Night
-    image: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?q=80&w=2070',
+    // Pair 4
+    imageBefore: '/images/img4.jpeg',
+    imageAfter: '/images/img44.png',
     description: 'We turn lights on. Transforming standard day shots into "Evening Entertainment" setups with warm interior glows and underwater lights.',
   },
   {
@@ -49,8 +53,9 @@ const modules = [
     icon: Eraser,
     beforeLabel: 'Cluttered',
     afterLabel: 'Pristine',
-    // Messy deck vs Clean
-    image: 'https://images.unsplash.com/photo-1605218427306-022ba801c178?q=80&w=2070',
+    // Pair 5
+    imageBefore: '/images/img5.jpeg',
+    imageAfter: '/images/img55.png',
     description: 'AI-driven removal of fenders, hoses, crew members, and neighboring boats to isolate the asset in perfect condition.',
   },
 ];
@@ -107,7 +112,8 @@ const DigitalStaging: React.FC = () => {
                     {/* The Comparison Component */}
                     <ComparisonSlider 
                         key={activeModule.id}
-                        image={activeModule.image}
+                        imageBefore={activeModule.imageBefore}
+                        imageAfter={activeModule.imageAfter}
                         labelBefore={activeModule.beforeLabel}
                         labelAfter={activeModule.afterLabel}
                         aspectRatio="aspect-[4/3] lg:aspect-[21/9]"

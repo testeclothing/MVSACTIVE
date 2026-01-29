@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
                     
                     {/* Background (After) */}
                     <img 
-                        src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=2070" 
+                        src="img1.jpeg" 
                         alt="MVS Output"
                         className="absolute inset-0 w-full h-full object-cover saturate-[1.2]" 
                     />

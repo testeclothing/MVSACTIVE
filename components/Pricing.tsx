@@ -159,6 +159,7 @@ const Pricing: React.FC = () => {
                             <div className="flex items-baseline gap-2">
                                 <span className={`text-4xl lg:text-5xl font-display font-bold tracking-tight ${tier.highlight ? 'text-dark dark:text-white' : 'text-gray-600 dark:text-gray-300'}`}>{tier.price}</span>
                             </div>
+                            {/* Preço Unitário */}
                             {tier.pricePerUnit && (
                                 <div className="mt-2 inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold rounded-sm uppercase tracking-wide">
                                     {tier.pricePerUnit}
@@ -195,10 +196,7 @@ const Pricing: React.FC = () => {
                             ))}
                         </ul>
 
-                        {/* 
-                           AQUI ESTÁ A CORREÇÃO: 
-                           Mudámos de <button onClick={...}> para <a href="#contact"> 
-                        */}
+                        {/* BOTÃO CORRIGIDO: Usa <a> para ir direto ao Contacto */}
                         <a 
                             href="#contact"
                             className={`w-full py-3 lg:py-4 rounded-sm text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 text-center flex items-center justify-center ${

@@ -1,32 +1,28 @@
 import React, { useState } from 'react';
-import { MapPin, TrendingUp, TrendingDown, AlertCircle, CheckCircle2, MousePointerClick, Eye, ShieldAlert } from 'lucide-react';
+import { MapPin, TrendingUp, TrendingDown, CheckCircle2, MousePointerClick, ShieldAlert } from 'lucide-react';
 
 const ListingDemo: React.FC = () => {
-  // Configuração das imagens do ANTES (Original)
+  // Configuração das imagens do ANTES (Original) - 5 imagens
   const beforeImages = [
       "/images/img11.png",   // Principal
       "/images/img55.png",   // 1ª de baixo
       "/images/img66.png",   // 2ª de baixo
       "/images/img22.png",   // 3ª de baixo
-      "/images/img22.png",   // 4ª de baixo
-      "/images/33img.png"    // 5ª de baixo
+      "/images/33img.png"    // 4ª de baixo
   ];
 
-  // Configuração das imagens do AFTER (MVS Optimized)
+  // Configuração das imagens do AFTER (MVS Optimized) - 5 imagens
   const afterImages = [
       "/images/img1.jpeg",   // Principal
       "/images/img5.jpeg",   // 1ª de baixo
       "/images/img6.jpeg",   // 2ª de baixo
       "/images/img2.jpeg",   // 3ª de baixo
-      "/images/img2.jpeg",   // 4ª de baixo
-      "/images/img3.jpeg"    // 5ª de baixo
+      "/images/img3.jpeg"    // 4ª de baixo
   ];
 
-  // Estado alterado para guardar o ÍNDICE (0 a 5) em vez do URL
   const [activeIndex, setActiveIndex] = useState(0);
 
   const renderContent = (mode: 'standard' | 'enhanced') => {
-    // Seleciona a lista correta baseada no modo
     const currentImages = mode === 'standard' ? beforeImages : afterImages;
     const activeImage = currentImages[activeIndex];
 
@@ -58,8 +54,8 @@ const ListingDemo: React.FC = () => {
                 </div>
             </div>
 
-            {/* Thumbnails - Alterado para grid-cols-6 para caberem as 6 imagens */}
-            <div className="grid grid-cols-6 gap-2">
+            {/* Thumbnails - Grid de 5 colunas */}
+            <div className="grid grid-cols-5 gap-2">
                 {currentImages.map((img, i) => (
                      <div 
                         key={i} 
@@ -96,7 +92,7 @@ const ListingDemo: React.FC = () => {
                 </div>
             </div>
 
-            {/* Dynamic Metrics Section - Different for Before/After */}
+            {/* Dynamic Metrics Section */}
             <div className={`flex-1 rounded-sm border p-4 mb-4 transition-colors duration-500 flex flex-col justify-center ${
                 mode === 'standard' 
                 ? 'bg-gray-50 border-gray-100' 
@@ -172,11 +168,12 @@ const ListingDemo: React.FC = () => {
           50% { left: 100%; }
           100% { left: 0%; }
         }
+        /* Mudei de 4s para 8s para o scanner ser mais lento */
         .animate-scanner-clip {
-          animation: scan-clip 4s ease-in-out infinite;
+          animation: scan-clip 8s ease-in-out infinite;
         }
         .animate-scanner-line {
-          animation: scan-line 4s ease-in-out infinite;
+          animation: scan-line 8s ease-in-out infinite;
         }
       `}</style>
       

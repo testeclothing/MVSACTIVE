@@ -2,17 +2,35 @@ import React, { useState } from 'react';
 import { MapPin, TrendingUp, TrendingDown, AlertCircle, CheckCircle2, MousePointerClick, Eye, ShieldAlert } from 'lucide-react';
 
 const ListingDemo: React.FC = () => {
-  const listingImages = [
-      "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?q=80&w=2070",
-      "https://images.unsplash.com/photo-1605218427306-022ba801c178?q=80&w=500",
-      "https://images.unsplash.com/photo-1544641666-41f237f3743c?q=80&w=500",
-      "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?q=80&w=500",
-      "https://images.unsplash.com/photo-1621217651084-2975949d21e3?q=80&w=500"
+  // Configuração das imagens do ANTES (Original)
+  const beforeImages = [
+      "/images/img11.png",   // Principal
+      "/images/img55.png",   // 1ª de baixo
+      "/images/img66.png",   // 2ª de baixo
+      "/images/img22.png",   // 3ª de baixo
+      "/images/img22.png",   // 4ª de baixo
+      "/images/33img.png"    // 5ª de baixo
   ];
 
-  const [activeImage, setActiveImage] = useState(listingImages[0]);
+  // Configuração das imagens do AFTER (MVS Optimized)
+  const afterImages = [
+      "/images/img1.jpeg",   // Principal
+      "/images/img5.jpeg",   // 1ª de baixo
+      "/images/img6.jpeg",   // 2ª de baixo
+      "/images/img2.jpeg",   // 3ª de baixo
+      "/images/img2.jpeg",   // 4ª de baixo
+      "/images/img3.jpeg"    // 5ª de baixo
+  ];
 
-  const renderContent = (mode: 'standard' | 'enhanced') => (
+  // Estado alterado para guardar o ÍNDICE (0 a 5) em vez do URL
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const renderContent = (mode: 'standard' | 'enhanced') => {
+    // Seleciona a lista correta baseada no modo
+    const currentImages = mode === 'standard' ? beforeImages : afterImages;
+    const activeImage = currentImages[activeIndex];
+
+    return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-full bg-white p-6">
         
         {/* Visuals Column */}
@@ -40,14 +58,14 @@ const ListingDemo: React.FC = () => {
                 </div>
             </div>
 
-            {/* Thumbnails */}
-            <div className="grid grid-cols-5 gap-2">
-                {listingImages.map((img, i) => (
+            {/* Thumbnails - Alterado para grid-cols-6 para caberem as 6 imagens */}
+            <div className="grid grid-cols-6 gap-2">
+                {currentImages.map((img, i) => (
                      <div 
                         key={i} 
-                        onClick={() => setActiveImage(img)}
+                        onClick={() => setActiveIndex(i)}
                         className={`aspect-[4/3] bg-gray-100 overflow-hidden cursor-pointer border-2 transition-all duration-300 ${
-                            activeImage === img 
+                            activeIndex === i 
                             ? (mode === 'standard' ? 'border-gray-400' : 'border-dark') 
                             : 'border-transparent hover:border-gray-200'
                         }`}
@@ -139,7 +157,7 @@ const ListingDemo: React.FC = () => {
             </div>
         </div>
     </div>
-  );
+  )};
 
   return (
     <section id="demo" className="py-16 bg-gray-50 dark:bg-[#0B0C10] border-y border-gray-200 dark:border-white/5 overflow-hidden transition-colors duration-500">

@@ -1,65 +1,71 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Check, ShieldCheck, Image as ImageIcon, Zap, Crown, Camera } from 'lucide-react';
+import { Check, ShieldCheck, Image as ImageIcon, Briefcase, Layers, Trophy } from 'lucide-react';
 
 const tiers = [
   {
-    name: "Essential",
-    price: "€750",
-    unit: "/ listing",
-    icon: Camera,
-    description: "The healthy minimum to compete in the premium market.",
+    name: "Single Asset",
+    price: "€590",
+    unit: "Total",
+    pricePerUnit: null, // Não mostra preço por unidade porque é só 1
+    icon: ImageIcon,
+    description: "Ideal for testing the impact of MVS optimization on a single listing.",
     includes: [
-      "Pro Exterior & Interior Photo",
-      "Basic Digital Retouching",
-      "Copywriting Assistance",
-      "48-Hour Standard Delivery"
+      "1 Full Listing Transformation",
+      "Exterior & Interior Enhancement",
+      "Digital Staging (1 Key Area)",
+      "Sky & Water Correction",
+      "48-Hour Delivery"
     ],
     features: [
-      "Best for: €100k - €300k Boats",
-      "Web-Ready Exports",
-      "Dedicated Editor"
+      "Standard Resolution",
+      "Email Support",
+      "1 Revision Round"
     ],
-    cta: "Book Essential",
+    cta: "Optimize 1 Boat",
     highlight: false
   },
   {
-    name: "Accelerator",
-    price: "€1,190",
-    unit: "/ listing",
-    icon: Zap,
-    description: "Maximum velocity. The 'Ideal Zone' for high-turnover assets.",
+    name: "Broker Pack",
+    price: "€2,500",
+    unit: "Total",
+    pricePerUnit: "€500 per boat", // Destaque do valor unitário
+    icon: Briefcase,
+    description: "The growth standard. Covers your monthly intake of premium inventory.",
     includes: [
-      "Everything in Essential",
-      "Drone Aerial Photography",
-      "Digital Staging (2 Rooms)",
-      "Social Media Short (Reel)"
+      "5 Full Listing Transformations",
+      "Priority 'Rush' Queue (24h)",
+      "Digital Staging (2 Key Areas)",
+      "Marketing Copywriting",
+      "Social Media Vertical Cuts"
     ],
     features: [
-      "Best for: €300k - €800k Boats",
-      "Priority 24h Turnaround",
-      "Video Synthesis"
+      "Save €450 vs Single",
+      "Dedicated Account Manager",
+      "Unlimited Revisions"
     ],
-    cta: "Start Acceleration",
+    cta: "Purchase Pack of 5",
     highlight: true
   },
   {
-    name: "Signature",
-    price: "Custom",
-    unit: "from €1,650",
-    icon: Crown,
-    description: "Full TV-quality production for hero assets and brand building.",
+    name: "Dealer Fleet",
+    price: "€6,000",
+    unit: "Total",
+    pricePerUnit: "€400 per boat", // Destaque do valor unitário
+    icon: Trophy,
+    description: "Enterprise volume for agencies dominating the market.",
     includes: [
-      "Full Video Production Crew",
-      "On-Camera Presenter / Models",
-      "Lifestyle & Storytelling",
-      "Advanced Drone (FPV)"
+      "15 Full Listing Transformations",
+      "Highest Priority Processing",
+      "Custom Brokerage Branding",
+      "White-Label Delivery Portal",
+      "Bulk Upload Support"
     ],
     features: [
-      "Best for: €800k+ Flagships",
-      "Dedicated Creative Director",
-      "On-Site Supervision"
+      "Save €2,850 vs Single",
+      "Direct WhatsApp Line",
+      "Monthly Strategy Call"
     ],
-    cta: "Contact Production",
+    cta: "Purchase Pack of 15",
     highlight: false
   }
 ];
@@ -77,16 +83,11 @@ const Pricing: React.FC = () => {
             setHasAnimated(true);
             setTimeout(() => {
                 if (scrollRef.current) {
-                    // Find the highlighted card index (Most Popular)
                     const highlightIndex = tiers.findIndex(t => t.highlight);
-                    
                     if (highlightIndex !== -1 && scrollRef.current.children[highlightIndex]) {
                         const card = scrollRef.current.children[highlightIndex] as HTMLElement;
                         const container = scrollRef.current;
-                        
-                        // Calculate scroll position to center the card
                         const scrollLeft = card.offsetLeft - (container.clientWidth / 2) + (card.clientWidth / 2);
-                        
                         container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
                     }
                 }
@@ -114,18 +115,18 @@ const Pricing: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-20">
             <span className="text-neon text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">
-                ROI-First Pricing
+                Flexible Volume Pricing
             </span>
             <h2 className="font-display text-4xl lg:text-6xl font-bold text-dark dark:text-white mb-6">
-                Invest in <br/>
-                <span className="text-gray-400 dark:text-gray-500">Asset Velocity.</span>
+                Scale Your <br/>
+                <span className="text-gray-400 dark:text-gray-500">Inventory Velocity.</span>
             </h2>
-            <div className="inline-flex items-center gap-2 text-dark dark:text-white text-xs lg:text-sm font-bold uppercase tracking-widest bg-white dark:bg-white/5 px-4 lg:px-6 py-3 rounded-full border border-gray-200 dark:border-white/10 shadow-sm dark:shadow-none">
-                <Crown className="w-4 h-4 text-neon" /> Standard Market Rule: 0.5% - 1% of Asset Value
-            </div>
+            <p className="text-gray-600 dark:text-gray-400 text-sm lg:text-base font-light max-w-xl mx-auto">
+                No monthly subscriptions. Credits never expire. Buy bundles to lower your cost per listing.
+            </p>
         </div>
 
-        {/* Pricing Grid - Scrollable on Mobile, Grid on Desktop */}
+        {/* Pricing Grid */}
         <div 
             ref={scrollRef}
             className="flex flex-nowrap lg:grid lg:grid-cols-3 gap-4 lg:gap-8 overflow-x-auto lg:overflow-visible pb-8 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0 snap-x snap-mandatory scrollbar-hide items-stretch"
@@ -136,13 +137,13 @@ const Pricing: React.FC = () => {
                     className={`min-w-[85vw] md:min-w-[50vw] lg:min-w-0 snap-center relative flex flex-col rounded-xl transition-all duration-500 group ${
                         tier.highlight 
                         ? 'bg-white dark:bg-[#0E1015] border border-neon shadow-2xl dark:shadow-[0_0_40px_rgba(204,243,129,0.1)] lg:scale-105 z-10' 
-                        : 'bg-white/50 dark:bg-[#0E1015] border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 opacity-100 lg:opacity-100'
+                        : 'bg-white/50 dark:bg-[#0E1015] border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 opacity-100'
                     }`}
                 >
-                    {/* Best Value Badge */}
+                    {/* Badge apenas para o pacote de 5 */}
                     {tier.highlight && (
                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-neon text-dark text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg z-20 flex items-center gap-2 border border-white/20 whitespace-nowrap">
-                            Most Popular
+                            Best Seller
                         </div>
                     )}
 
@@ -155,13 +156,18 @@ const Pricing: React.FC = () => {
                         {/* Title & Price */}
                         <div className="mb-6">
                             <h3 className="text-lg lg:text-xl font-bold text-dark dark:text-white mb-2 font-display">{tier.name}</h3>
-                            <div className="flex items-baseline gap-1">
+                            <div className="flex items-baseline gap-2">
                                 <span className={`text-4xl lg:text-5xl font-display font-bold tracking-tight ${tier.highlight ? 'text-dark dark:text-white' : 'text-gray-600 dark:text-gray-300'}`}>{tier.price}</span>
-                                <span className="text-xs lg:text-sm text-gray-500 font-medium">{tier.unit}</span>
                             </div>
+                            {/* Preço por unidade (cálculo automático visual) */}
+                            {tier.pricePerUnit && (
+                                <div className="mt-2 inline-block px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold rounded-sm uppercase tracking-wide">
+                                    {tier.pricePerUnit}
+                                </div>
+                            )}
                         </div>
 
-                        <p className="text-xs lg:text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6 lg:mb-8 min-h-[40px] lg:min-h-[60px] font-light">
+                        <p className="text-xs lg:text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-6 lg:mb-8 min-h-[40px] font-light">
                             {tier.description}
                         </p>
 
@@ -212,17 +218,17 @@ const Pricing: React.FC = () => {
                     <ShieldCheck className="w-5 h-5 text-neon" />
                 </div>
                 <div>
-                    <h4 className="text-dark dark:text-white font-bold text-sm">Visual SLA Guarantee</h4>
-                    <p className="text-gray-500 text-xs">If we miss a 48h deadline, you get a 50% refund on that asset.</p>
+                    <h4 className="text-dark dark:text-white font-bold text-sm">Credits Never Expire</h4>
+                    <p className="text-gray-500 text-xs">Buy a pack today, use them whenever you get a new listing.</p>
                 </div>
             </div>
             <div className="flex items-center gap-4 justify-center md:justify-start">
                 <div className="w-10 h-10 rounded-full bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center shrink-0">
-                    <ImageIcon className="w-5 h-5 text-neon" />
+                    <Layers className="w-5 h-5 text-neon" />
                 </div>
                 <div>
-                    <h4 className="text-dark dark:text-white font-bold text-sm">Volume Discounts</h4>
-                    <p className="text-gray-500 text-xs">Special rates for brokers with 5+ listings per month.</p>
+                    <h4 className="text-dark dark:text-white font-bold text-sm">Bulk Processing</h4>
+                    <p className="text-gray-500 text-xs">Upload 5+ boats at once and get everything back in 48h.</p>
                 </div>
             </div>
         </div>

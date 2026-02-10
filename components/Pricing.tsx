@@ -1,65 +1,65 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Check, ShieldCheck, Image as ImageIcon, Clock, Crown, Briefcase, Globe } from 'lucide-react';
+import { Check, ShieldCheck, Image as ImageIcon, Zap, Crown, Camera } from 'lucide-react';
 
 const tiers = [
   {
-    name: "Studio Retainer",
-    price: "$2,500",
-    unit: "/ month",
-    icon: Briefcase,
-    description: "The essential visual department for boutique brokerages.",
+    name: "Essential",
+    price: "€750",
+    unit: "/ listing",
+    icon: Camera,
+    description: "The healthy minimum to compete in the premium market.",
     includes: [
-      "5 Full Listing Transformations",
-      "Exterior, Interior & Drone",
-      "Virtual Staging",
+      "Pro Exterior & Interior Photo",
+      "Basic Digital Retouching",
+      "Copywriting Assistance",
       "48-Hour Standard Delivery"
     ],
     features: [
-      "Roll-over unused credits",
-      "Dedicated Creative Director",
-      "Print-Ready 8K Exports"
+      "Best for: €100k - €300k Boats",
+      "Web-Ready Exports",
+      "Dedicated Editor"
     ],
-    cta: "Apply for Access",
+    cta: "Book Essential",
     highlight: false
   },
   {
-    name: "Agency Partner",
-    price: "$4,950",
-    unit: "/ month",
-    icon: Crown,
-    description: "High-volume throughput for aggressive firms. Operates 24/7.",
+    name: "Accelerator",
+    price: "€1,190",
+    unit: "/ listing",
+    icon: Zap,
+    description: "Maximum velocity. The 'Ideal Zone' for high-turnover assets.",
     includes: [
-      "15 Full Listing Transformations",
-      "Priority 'Rush' Queue (24h)",
-      "Custom Brokerage Branding",
-      "Unlimited Revisions"
+      "Everything in Essential",
+      "Drone Aerial Photography",
+      "Digital Staging (2 Rooms)",
+      "Social Media Short (Reel)"
     ],
     features: [
-      "Private Slack/WhatsApp",
-      "Video Synthesis (Beta)",
-      "Monthly Strategy Call"
+      "Best for: €300k - €800k Boats",
+      "Priority 24h Turnaround",
+      "Video Synthesis"
     ],
-    cta: "Secure Agency Slot",
+    cta: "Start Acceleration",
     highlight: true
   },
   {
-    name: "Global Fleet",
+    name: "Signature",
     price: "Custom",
-    unit: "Annual",
-    icon: Globe,
-    description: "Enterprise integration for international firms with 50+ listings.",
+    unit: "from €1,650",
+    icon: Crown,
+    description: "Full TV-quality production for hero assets and brand building.",
     includes: [
-      "Unlimited Listing Volume",
-      "API / Headless Integration",
-      "Multi-Office Billing",
-      "White-Label Portal"
+      "Full Video Production Crew",
+      "On-Camera Presenter / Models",
+      "Lifestyle & Storytelling",
+      "Advanced Drone (FPV)"
     ],
     features: [
-      "Dedicated Production Team",
-      "SLA Guarantees",
-      "On-Site Training"
+      "Best for: €800k+ Flagships",
+      "Dedicated Creative Director",
+      "On-Site Supervision"
     ],
-    cta: "Contact Enterprise",
+    cta: "Contact Production",
     highlight: false
   }
 ];
@@ -85,7 +85,6 @@ const Pricing: React.FC = () => {
                         const container = scrollRef.current;
                         
                         // Calculate scroll position to center the card
-                        // Center = (Card Offset Left) - (Container Width / 2) + (Card Width / 2)
                         const scrollLeft = card.offsetLeft - (container.clientWidth / 2) + (card.clientWidth / 2);
                         
                         container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
@@ -106,7 +105,7 @@ const Pricing: React.FC = () => {
   }, [hasAnimated]);
 
   return (
-    <section id="investment" className="py-20 lg:py-32 bg-gray-50 dark:bg-[#0B0C10] border-t border-gray-200 dark:border-white/5 relative overflow-hidden transition-colors duration-500">
+    <section id="pricing" className="py-20 lg:py-32 bg-gray-50 dark:bg-[#0B0C10] border-t border-gray-200 dark:border-white/5 relative overflow-hidden transition-colors duration-500">
        {/* Ambient Background */}
        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neon/5 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -115,14 +114,14 @@ const Pricing: React.FC = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-20">
             <span className="text-neon text-[10px] font-bold uppercase tracking-[0.3em] mb-4 block">
-                Partnership Models
+                ROI-First Pricing
             </span>
             <h2 className="font-display text-4xl lg:text-6xl font-bold text-dark dark:text-white mb-6">
-                Your Visual Department. <br/>
-                <span className="text-gray-400 dark:text-gray-500">Fixed Cost.</span>
+                Invest in <br/>
+                <span className="text-gray-400 dark:text-gray-500">Asset Velocity.</span>
             </h2>
             <div className="inline-flex items-center gap-2 text-dark dark:text-white text-xs lg:text-sm font-bold uppercase tracking-widest bg-white dark:bg-white/5 px-4 lg:px-6 py-3 rounded-full border border-gray-200 dark:border-white/10 shadow-sm dark:shadow-none">
-                <Clock className="w-4 h-4 text-neon" /> Capacity Limited to 20 Agencies
+                <Crown className="w-4 h-4 text-neon" /> Standard Market Rule: 0.5% - 1% of Asset Value
             </div>
         </div>
 
@@ -137,7 +136,7 @@ const Pricing: React.FC = () => {
                     className={`min-w-[85vw] md:min-w-[50vw] lg:min-w-0 snap-center relative flex flex-col rounded-xl transition-all duration-500 group ${
                         tier.highlight 
                         ? 'bg-white dark:bg-[#0E1015] border border-neon shadow-2xl dark:shadow-[0_0_40px_rgba(204,243,129,0.1)] lg:scale-105 z-10' 
-                        : 'bg-white/50 dark:bg-[#0E1015] border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 opacity-100 lg:opacity-100' // Ensure opacity is full on mobile
+                        : 'bg-white/50 dark:bg-[#0E1015] border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 opacity-100 lg:opacity-100'
                     }`}
                 >
                     {/* Best Value Badge */}
@@ -197,7 +196,7 @@ const Pricing: React.FC = () => {
                                 ? 'bg-neon text-dark hover:bg-neonHover shadow-[0_0_20px_rgba(204,243,129,0.3)] hover:shadow-[0_0_30px_rgba(204,243,129,0.5)]' 
                                 : 'bg-white dark:bg-white/5 text-dark dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/30'
                             }`}
-                            onClick={() => document.getElementById('audit')?.scrollIntoView({ behavior: 'smooth' })}
+                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                         >
                             {tier.cta}
                         </button>
@@ -214,7 +213,7 @@ const Pricing: React.FC = () => {
                 </div>
                 <div>
                     <h4 className="text-dark dark:text-white font-bold text-sm">Visual SLA Guarantee</h4>
-                    <p className="text-gray-500 text-xs">If we miss a 48h deadline, your next month is 50% off.</p>
+                    <p className="text-gray-500 text-xs">If we miss a 48h deadline, you get a 50% refund on that asset.</p>
                 </div>
             </div>
             <div className="flex items-center gap-4 justify-center md:justify-start">
@@ -222,8 +221,8 @@ const Pricing: React.FC = () => {
                     <ImageIcon className="w-5 h-5 text-neon" />
                 </div>
                 <div>
-                    <h4 className="text-dark dark:text-white font-bold text-sm">Cancel Anytime</h4>
-                    <p className="text-gray-500 text-xs">No long-term contracts. Pause or cancel with 30 days notice.</p>
+                    <h4 className="text-dark dark:text-white font-bold text-sm">Volume Discounts</h4>
+                    <p className="text-gray-500 text-xs">Special rates for brokers with 5+ listings per month.</p>
                 </div>
             </div>
         </div>

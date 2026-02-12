@@ -4,7 +4,7 @@ import { Check, ShieldCheck, Image as ImageIcon, Briefcase, Layers, Trophy } fro
 const tiers = [
   {
     name: "Single Asset",
-    price: "€590",
+    price: "590€",
     unit: "Total",
     pricePerUnit: null,
     icon: ImageIcon,
@@ -26,9 +26,9 @@ const tiers = [
   },
   {
     name: "Broker Pack",
-    price: "€2,500",
+    price: "2,500€",
     unit: "Total",
-    pricePerUnit: "€500 per boat",
+    pricePerUnit: "500€ per boat",
     icon: Briefcase,
     description: "The growth standard. Covers your monthly intake of premium inventory.",
     includes: [
@@ -39,7 +39,7 @@ const tiers = [
       "Social Media Vertical Cuts"
     ],
     features: [
-      "Save €450 vs Single",
+      "Save 450€ vs Single",
       "Dedicated Account Manager",
       "Unlimited Revisions"
     ],
@@ -48,9 +48,9 @@ const tiers = [
   },
   {
     name: "Dealer Fleet",
-    price: "€6,000",
+    price: "6,000€",
     unit: "Total",
-    pricePerUnit: "€400 per boat",
+    pricePerUnit: "400€ per boat",
     icon: Trophy,
     description: "Enterprise volume for agencies dominating the market.",
     includes: [
@@ -61,7 +61,7 @@ const tiers = [
       "Bulk Upload Support"
     ],
     features: [
-      "Save €2,850 vs Single",
+      "Save 2,850€ vs Single",
       "Direct WhatsApp Line",
       "Monthly Strategy Call"
     ],

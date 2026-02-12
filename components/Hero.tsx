@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
                     
                     {/* Background (After - Synthesized) */}
                     <img 
-                        src="/images/img1.jpeg" 
+                        src="/images/img7.jpeg" 
                         alt="MVS Output"
                         className="absolute inset-0 w-full h-full object-cover saturate-[1.2]" 
                     />
@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
                     {/* Foreground (Before - Raw Dock) - Clipped */}
                     <div className="absolute inset-0 animate-scanner-clip bg-gray-100 dark:bg-[#050505]">
                         <img 
-                            src="/images/img11.png" 
+                            src="/images/img77.png" 
                             alt="Dock State"
                             className="w-full h-full object-cover brightness-75 opacity-90" 
                         />

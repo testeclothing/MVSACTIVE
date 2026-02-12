@@ -113,7 +113,7 @@ const LogisticsComparison: React.FC = () => {
                             <DollarSign className="w-4 h-4 text-neon" />
                         </div>
                         <div>
-                            <h4 className="text-dark dark:text-white font-bold text-sm uppercase tracking-widest mb-1">Cost: Flat €349</h4>
+                            <h4 className="text-dark dark:text-white font-bold text-sm uppercase tracking-widest mb-1">Cost: Flat 590€</h4>
                             <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">Predictable, scalable pricing with volume retainers available.</p>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Check, ShieldCheck, Image as ImageIcon, Briefcase, Layers, Trophy } from 'lucide-react';
+import { Check, ShieldCheck, Anchor, Briefcase, Layers, Trophy } from 'lucide-react';
 
 const tiers = [
   {
@@ -7,7 +7,7 @@ const tiers = [
     price: "590€",
     unit: "Total",
     pricePerUnit: null,
-    icon: ImageIcon,
+    icon: Anchor,
     description: "Ideal for testing the impact of MVS optimization on a single listing.",
     includes: [
       "1 Full Listing Transformation",

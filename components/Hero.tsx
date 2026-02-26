@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
                     
                     {/* Background (After - Synthesized) */}
                     <img 
-                        src="/images/img7.jpeg" 
+                        src="/images/img12.jpeg" 
                         alt="MVS Output"
                         className="absolute inset-0 w-full h-full object-cover saturate-[1.2]" 
                     />

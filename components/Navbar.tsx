@@ -3,22 +3,30 @@ import { Menu, X, Aperture, Sun, Moon, Lock, ChevronRight } from 'lucide-react';
 import Button from './Button';
 
 const navItems = [
-  { label: 'The Protocol', href: '#services' }, // Liga ao DigitalStaging
-  { label: 'Case Study', href: '#demo' },       // Liga ao ListingDemo (verifica se tens id="demo" lá)
-  { label: 'Valuation', href: '#audit' },       // Liga ao FreeAudit/Contact
+  { label: 'The Protocol', href: '#services' },
+  { label: 'Case Study', href: '#demo' },
+  { label: 'Valuation', href: '#audit' },
 ];
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+  
+  // MUDANÇA 1: O estado inicial começa como TRUE (Dark)
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    // Verifica preferência de tema
-    if (document.documentElement.classList.contains('dark')) {
-        setIsDark(true);
-    } else {
+    // MUDANÇA 2: Lógica de inicialização forçada para Dark
+    const storedTheme = localStorage.getItem('theme');
+    
+    if (storedTheme === 'light') {
+        // Só muda para light se o utilizador já tiver escolhido isso antes
         setIsDark(false);
+        document.documentElement.classList.remove('dark');
+    } else {
+        // Caso contrário (primeira visita ou preferência dark), força o Dark
+        setIsDark(true);
+        document.documentElement.classList.add('dark');
     }
 
     const handleScroll = () => {
@@ -31,9 +39,11 @@ const Navbar: React.FC = () => {
   const toggleTheme = () => {
       if (isDark) {
           document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light'); // Guarda a preferência
           setIsDark(false);
       } else {
           document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark'); // Guarda a preferência
           setIsDark(true);
       }
   };
@@ -46,7 +56,6 @@ const Navbar: React.FC = () => {
       }
   };
 
-  // Estilo dinâmico da Navbar (Glassmorphism)
   const navbarBg = isScrolled 
     ? 'bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5 py-2' 
     : 'bg-transparent py-6';
@@ -56,7 +65,7 @@ const Navbar: React.FC = () => {
     <nav className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${navbarBg}`}>
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
         
-        {/* ESQUERDA: Branding Institucional */}
+        {/* ESQUERDA: Branding */}
         <div className="flex items-center gap-6">
             <a href="#" className="flex items-center gap-3 group">
                 <div className={`w-8 h-8 flex items-center justify-center rounded-sm transition-all duration-500 border ${isScrolled ? 'bg-dark dark:bg-white text-white dark:text-dark border-transparent' : 'bg-white/10 text-dark dark:text-white border-dark/10 dark:border-white/20 backdrop-blur-sm'}`}>
@@ -72,10 +81,8 @@ const Navbar: React.FC = () => {
                 </div>
             </a>
             
-            {/* Divisória Vertical (Apenas Desktop) */}
             <div className="hidden lg:block h-4 w-[1px] bg-dark/10 dark:bg-white/10"></div>
 
-            {/* Status do Sistema (Toque Cyberpunk/Luxo) */}
             <div className="hidden lg:flex items-center gap-2">
                 <div className="w-1.5 h-1.5 bg-neon rounded-full animate-pulse"></div>
                 <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest">
@@ -84,7 +91,7 @@ const Navbar: React.FC = () => {
             </div>
         </div>
 
-        {/* CENTRO: Navegação Principal */}
+        {/* CENTRO: Navegação */}
         <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
@@ -98,9 +105,8 @@ const Navbar: React.FC = () => {
             ))}
         </div>
 
-        {/* DIREITA: Ferramentas & Partner Access */}
+        {/* DIREITA: Ferramentas */}
         <div className="hidden md:flex items-center gap-4">
-             {/* Theme Toggle */}
              <button 
                 onClick={toggleTheme}
                 className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-dark dark:hover:text-white transition-colors"
@@ -108,9 +114,8 @@ const Navbar: React.FC = () => {
                 {isDark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
              </button>
 
-             {/* O Segredo: Partner Portal */}
              <a 
-                href="/partners" // Este link pode ir para a página de login futura
+                href="/partners" 
                 className="flex items-center gap-2 px-4 py-2 rounded-sm border border-transparent hover:border-gray-200 dark:hover:border-white/10 transition-all group"
              >
                 <Lock className="w-3 h-3 text-gray-400 group-hover:text-neon transition-colors" />
@@ -119,7 +124,6 @@ const Navbar: React.FC = () => {
                 </span>
              </a>
 
-             {/* Primary CTA - Minimalista */}
              <button 
                 onClick={() => handleNavClick('#audit')}
                 className="bg-dark dark:bg-white text-white dark:text-dark px-5 py-2.5 rounded-sm text-[9px] font-bold uppercase tracking-widest hover:bg-neon hover:text-dark dark:hover:bg-neon dark:hover:text-dark transition-all duration-300"
@@ -146,7 +150,7 @@ const Navbar: React.FC = () => {
       </div>
     </nav>
 
-    {/* Mobile Menu Overlay */}
+    {/* Mobile Menu */}
     <div className={`fixed inset-0 bg-white dark:bg-[#050505] z-40 flex flex-col pt-32 px-8 transition-transform duration-500 ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
         
         <div className="flex flex-col gap-8">
@@ -165,7 +169,6 @@ const Navbar: React.FC = () => {
         <div className="mt-auto mb-12 border-t border-gray-100 dark:border-white/5 pt-8">
              <button 
                 className="flex items-center gap-3 text-gray-500 mb-6"
-                // Aqui podes adicionar lógica para abrir o modal de login
              >
                 <Lock className="w-4 h-4" />
                 <span className="text-xs font-bold uppercase tracking-widest">Partner Portal Login</span>

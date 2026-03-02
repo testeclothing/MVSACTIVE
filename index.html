@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +17,7 @@
                         dark: '#0B0C10', // Rich Obsidian
                         light: '#FFFFFF', // Pure White
                         paper: '#F9FAFB', // Off-White
-                        neon: '#A4D14E', // Adjusted Neon (Darker Green/Lime) for better contrast on white
+                        neon: '#A4D14E', // Adjusted Neon (Darker Green/Lime)
                         neonHover: '#8CB83E',
                         silver: '#E5E7EB',
                         'silver-metallic': '#9CA3AF',
@@ -60,20 +60,25 @@
         }
     </script>
     <style>
+        /* MUDANÇA: Fundo inicial preto para evitar flash branco */
         body {
-            background-color: #FFFFFF;
+            background-color: #0B0C10;
+            color: white;
         }
         
-        /* Modern Scrollbar */
+        /* Modern Scrollbar - Dark Theme Default */
         ::-webkit-scrollbar {
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #F3F4F6; 
+            background: #0B0C10; 
         }
         ::-webkit-scrollbar-thumb {
-            background: #D1D5DB; 
+            background: #333333; 
             border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444444; 
         }
 
         .text-outline {

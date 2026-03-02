@@ -2,15 +2,12 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import DigitalStaging from './components/DigitalStaging';
-import ROICalculator from './components/ROICalculator';
 import ListingDemo from './components/ListingDemo';
 import AccuracyGuarantee from './components/AccuracyGuarantee';
-import Pricing from './components/Pricing';
 import Contact from './components/Contact';
 import FreeAudit from './components/FreeAudit';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-import LogisticsComparison from './components/LogisticsComparison';
 import MobileBottomNav from './components/MobileBottomNav';
 import Chatbot from './components/Chatbot';
 
@@ -48,14 +45,18 @@ const App: React.FC = () => {
         <MobileBottomNav />
         <main className="flex-grow">
           <Hero />
+          
+          {/* Engineering / Services Section */}
           <DigitalStaging />
+          
+          {/* Case Study */}
           <ListingDemo />
-          <LogisticsComparison />
-          <Pricing />
-          <div id="pilot">
+          
+          {/* The "Access Protocol" Section (Formerly Free Audit) */}
+          <div id="audit">
               <FreeAudit />
           </div>
-          <ROICalculator />
+          
           <AccuracyGuarantee />
           <FAQ />
           <Contact />

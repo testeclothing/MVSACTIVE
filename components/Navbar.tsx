@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Aperture, Sun, Moon } from 'lucide-react';
+import { Menu, X, Aperture, Sun, Moon, Lock, ChevronRight } from 'lucide-react';
 import Button from './Button';
 
 const navItems = [
-  { label: 'Technology', href: '#engine' },
-  { label: 'Savings', href: '#roi' },
-  { label: 'Gallery', href: '#work' },
-  { label: 'Partnership', href: '#investment' },
+  { label: 'The Protocol', href: '#services' }, // Liga ao DigitalStaging
+  { label: 'Case Study', href: '#demo' },       // Liga ao ListingDemo (verifica se tens id="demo" lá)
+  { label: 'Valuation', href: '#audit' },       // Liga ao FreeAudit/Contact
 ];
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false); // Default to Light
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Check if user manually set dark mode previously or OS preference, otherwise default to light
+    // Verifica preferência de tema
     if (document.documentElement.classList.contains('dark')) {
         setIsDark(true);
     } else {
@@ -23,7 +22,7 @@ const Navbar: React.FC = () => {
     }
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -47,110 +46,136 @@ const Navbar: React.FC = () => {
       }
   };
 
-  // Ultra-Compact Dynamic Styles
+  // Estilo dinâmico da Navbar (Glassmorphism)
   const navbarBg = isScrolled 
-    ? 'bg-white/90 dark:bg-[#050505]/95 backdrop-blur-md border-b border-gray-200 dark:border-white/5 py-1.5 shadow-sm' 
-    : 'bg-transparent py-4';
-
-  const textColor = 'text-dark dark:text-white';
+    ? 'bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md border-b border-gray-200 dark:border-white/5 py-2' 
+    : 'bg-transparent py-6';
 
   return (
     <>
     <nav className={`fixed w-full z-50 transition-all duration-500 ease-in-out ${navbarBg}`}>
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
-        {/* Brand */}
-        <div className="flex items-center gap-4 z-50">
-            <a href="#" className="flex items-center gap-2 group">
-                <div className={`w-7 h-7 flex items-center justify-center rounded-sm transition-all duration-500 border ${isScrolled ? 'bg-neon dark:bg-white/5 border-neon dark:border-white/20 text-white dark:text-neon' : 'bg-dark/5 dark:bg-white/10 text-neon border-dark/10 dark:border-white/10 backdrop-blur-md'}`}>
-                    <Aperture className="w-3.5 h-3.5 relative z-10" />
+        
+        {/* ESQUERDA: Branding Institucional */}
+        <div className="flex items-center gap-6">
+            <a href="#" className="flex items-center gap-3 group">
+                <div className={`w-8 h-8 flex items-center justify-center rounded-sm transition-all duration-500 border ${isScrolled ? 'bg-dark dark:bg-white text-white dark:text-dark border-transparent' : 'bg-white/10 text-dark dark:text-white border-dark/10 dark:border-white/20 backdrop-blur-sm'}`}>
+                    <Aperture className="w-4 h-4" />
                 </div>
-                <span className={`font-display font-bold text-lg tracking-tighter leading-none transition-colors ${textColor} group-hover:text-neon`}>
-                    MVS
-                </span>
+                <div className="flex flex-col">
+                    <span className="font-display font-bold text-lg tracking-tight leading-none text-dark dark:text-white">
+                        MVS
+                    </span>
+                    <span className="text-[7px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -ml-[1px]">
+                        Private Infrastructure
+                    </span>
+                </div>
             </a>
+            
+            {/* Divisória Vertical (Apenas Desktop) */}
+            <div className="hidden lg:block h-4 w-[1px] bg-dark/10 dark:bg-white/10"></div>
 
-            {/* Scarcity Indicator - Ultra Small */}
-            <div className={`hidden xl:flex items-center gap-1.5 px-2 py-0.5 rounded-full border transition-all duration-500 ${isScrolled ? 'bg-gray-50 dark:bg-white/5 border-gray-200 dark:border-white/10' : 'bg-white/40 dark:bg-white/5 border-white/50 dark:border-white/10'}`}>
-                <div className="w-1 h-1 bg-neon rounded-full animate-pulse"></div>
-                <span className="text-[7px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
-                    <span className="text-dark dark:text-white">3 Open Slots</span>
+            {/* Status do Sistema (Toque Cyberpunk/Luxo) */}
+            <div className="hidden lg:flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-neon rounded-full animate-pulse"></div>
+                <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest">
+                    System Online
                 </span>
             </div>
         </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-6">
+        {/* CENTRO: Navegação Principal */}
+        <div className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
               <button
                 key={item.label}
                 onClick={() => handleNavClick(item.href)}
-                className="text-[8px] font-bold uppercase tracking-[0.25em] transition-all bg-transparent border-none cursor-pointer relative group text-gray-500 dark:text-gray-400 hover:text-dark dark:hover:text-white"
+                className="text-[9px] font-bold uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 hover:text-dark dark:hover:text-white transition-colors relative group"
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] transition-all duration-300 group-hover:w-full bg-neon"></span>
+                <span className="absolute -bottom-2 left-1/2 w-0 h-[1px] bg-neon transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
               </button>
             ))}
         </div>
 
-        {/* CTA & Theme Toggle */}
-        <div className="hidden md:flex items-center gap-2.5">
+        {/* DIREITA: Ferramentas & Partner Access */}
+        <div className="hidden md:flex items-center gap-4">
+             {/* Theme Toggle */}
              <button 
                 onClick={toggleTheme}
-                className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors"
+                className="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:text-dark dark:hover:text-white transition-colors"
              >
                 {isDark ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
              </button>
 
-             <button 
-                onClick={() => document.getElementById('pilot')?.scrollIntoView({ behavior: 'smooth' })}
-                className="text-[8px] font-bold uppercase tracking-widest hover:text-neon transition-colors text-gray-500 dark:text-gray-400 mr-1"
+             {/* O Segredo: Partner Portal */}
+             <a 
+                href="/partners" // Este link pode ir para a página de login futura
+                className="flex items-center gap-2 px-4 py-2 rounded-sm border border-transparent hover:border-gray-200 dark:hover:border-white/10 transition-all group"
              >
-                Get Free Test Photo
-             </button>
-            <Button 
-                variant="outline" 
-                className="border-gray-300 dark:border-white/20 text-dark dark:text-white hover:bg-gray-100 dark:hover:bg-white/10 py-2.5 px-5 text-[8px]"
+                <Lock className="w-3 h-3 text-gray-400 group-hover:text-neon transition-colors" />
+                <span className="text-[9px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 group-hover:text-dark dark:group-hover:text-white transition-colors">
+                    Partner Access
+                </span>
+             </a>
+
+             {/* Primary CTA - Minimalista */}
+             <button 
                 onClick={() => handleNavClick('#audit')}
+                className="bg-dark dark:bg-white text-white dark:text-dark px-5 py-2.5 rounded-sm text-[9px] font-bold uppercase tracking-widest hover:bg-neon hover:text-dark dark:hover:bg-neon dark:hover:text-dark transition-all duration-300"
             >
-                Apply for Access
-            </Button>
+                Inquire
+             </button>
         </div>
 
         {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center gap-3 z-50">
+        <div className="md:hidden flex items-center gap-4">
              <button 
                 onClick={toggleTheme}
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-white/10 text-dark dark:text-white"
+                className="text-dark dark:text-white"
              >
                 {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
              </button>
              <button 
-                className="p-2 text-dark dark:text-white"
+                className="text-dark dark:text-white"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
         </div>
       </div>
     </nav>
 
     {/* Mobile Menu Overlay */}
-    <div className={`fixed inset-0 bg-white dark:bg-[#050505] z-40 transform transition-transform duration-500 ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="h-full flex flex-col items-center justify-center space-y-8">
+    <div className={`fixed inset-0 bg-white dark:bg-[#050505] z-40 flex flex-col pt-32 px-8 transition-transform duration-500 ${isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+        
+        <div className="flex flex-col gap-8">
             {navItems.map((item) => (
               <button
                 key={item.label}
                 onClick={() => handleNavClick(item.href)}
-                className="text-3xl font-display font-bold text-dark dark:text-white"
+                className="text-3xl font-display font-bold text-dark dark:text-white text-left flex items-center justify-between group"
               >
                 {item.label}
+                <ChevronRight className="w-5 h-5 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-neon" />
               </button>
             ))}
+        </div>
+
+        <div className="mt-auto mb-12 border-t border-gray-100 dark:border-white/5 pt-8">
+             <button 
+                className="flex items-center gap-3 text-gray-500 mb-6"
+                // Aqui podes adicionar lógica para abrir o modal de login
+             >
+                <Lock className="w-4 h-4" />
+                <span className="text-xs font-bold uppercase tracking-widest">Partner Portal Login</span>
+             </button>
+
              <button 
                 onClick={() => handleNavClick('#audit')}
-                className="text-[9px] font-bold uppercase tracking-widest bg-dark dark:bg-white text-white dark:text-dark px-10 py-4 mt-8"
+                className="w-full bg-neon text-dark py-4 text-xs font-bold uppercase tracking-widest"
             >
-                Apply for Access
+                Initialize Protocol
             </button>
         </div>
     </div>

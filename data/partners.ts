@@ -1,19 +1,24 @@
+// src/data/partners.ts
+
 export const partners = {
   'soproyachts': {
     name: 'Sopro Yachts',
-    logo: '/partners/sopro/logo.png', 
+    // Caminho atualizado para o teu ficheiro específico
+    logo: '/partners/sopro/logosopro.png', 
     slides: {
       cover: {
         title: "Commanding the Market.",
         subtitle: "Elevating the perceived value of extraordinary vessels through optical engineering."
       },
       exterior: {
-        before: '/partners/sopro/ext_before.jpg', 
-        after: '/partners/sopro/ext_after.jpg',   
+        // Mapeado para as imagens que carregaste
+        before: '/partners/sopro/200.jpg', 
+        after: '/partners/sopro/img100.jpg',   
       },
       interior: {
-        before: '/partners/sopro/int_before.jpg',
-        after: '/partners/sopro/int_after.jpg',
+        // Mapeado para as imagens que carregaste
+        before: '/partners/sopro/204.jpg',
+        after: '/partners/sopro/104.jpg',
       }
     }
   }

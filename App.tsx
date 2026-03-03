@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import DigitalStaging from './components/DigitalStaging';
 import ListingDemo from './components/ListingDemo';
+import ExtremeDetail from './components/ExtremeDetail'; // <--- NOVA IMPORTAÇÃO
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
@@ -50,12 +51,14 @@ const App: React.FC = () => {
           
           {/* 3. Prova de Valor (Case Study) */}
           <ListingDemo />
+
+          {/* 4. Prova de Qualidade (Zoom Infinito) - NOVO */}
+          <ExtremeDetail />
           
-          {/* REMOVIDOS: Logistics, Pricing, ROI, FreeAudit, AccuracyGuarantee */}
-          
+          {/* 5. Perguntas Frequentes */}
           <FAQ />
           
-          {/* 4. Acesso Reservado */}
+          {/* 6. Acesso Reservado */}
           <Contact />
         </main>
         <Footer />

@@ -1,17 +1,16 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import DigitalStaging from './components/DigitalStaging';
-import AccuracyGuarantee from './components/AccuracyGuarantee'; // <--- NOVA IMPORTAÇÃO
-import ListingDemo from './components/ListingDemo';
-import ExtremeDetail from './components/ExtremeDetail';
-import FAQ from './components/FAQ';
-import Footer from './components/Footer';
-import Contact from './components/Contact';
-import MobileBottomNav from './components/MobileBottomNav';
-import Chatbot from './components/Chatbot';
+import Navbar from './Navbar';
+import Hero from './Hero';
+import DigitalStaging from './DigitalStaging';
+import AccuracyGuarantee from './AccuracyGuarantee';
+import ListingDemo from './ListingDemo';
+import FAQ from './FAQ';
+import Footer from './Footer';
+import Contact from './Contact';
+import MobileBottomNav from './MobileBottomNav';
+import Chatbot from './Chatbot';
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#0B0C10] text-dark dark:text-white font-sans selection:bg-neon selection:text-white overflow-x-hidden relative transition-colors duration-500 pb-24 md:pb-0">
       
@@ -50,19 +49,16 @@ const App: React.FC = () => {
           {/* 2. Engenharia Visual (O Processo - Slider Antes/Depois) */}
           <DigitalStaging />
 
-          {/* 3. Garantia Forense (A Segurança - Geometria Bloqueada) - NOVO */}
+          {/* 3. Garantia Forense (A Segurança - Geometria Bloqueada) */}
           <AccuracyGuarantee />
           
           {/* 4. Case Study (O Resultado Financeiro) */}
           <ListingDemo />
-
-          {/* 5. Zoom Infinito (A Prova Técnica) */}
-          <ExtremeDetail />
           
-          {/* 6. Dúvidas */}
+          {/* 5. Dúvidas */}
           <FAQ />
           
-          {/* 7. Acesso Reservado (Exclusividade) */}
+          {/* 6. Acesso Reservado (Exclusividade) */}
           <Contact />
         </main>
         <Footer />
@@ -71,4 +67,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Home;

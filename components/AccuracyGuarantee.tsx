@@ -59,7 +59,7 @@ const AccuracyGuarantee: React.FC = () => {
                 <div 
                     className="absolute inset-0 w-full h-full transition-transform duration-100 ease-out"
                     style={{
-                        backgroundImage: `url('/images/img100.png')`, // <--- TUA IMAGEM ORIGINAL AQUI
+                        backgroundImage: `url('/images/200.jpg')`, // <--- ALTERADO: Imagem Original
                         backgroundSize: '300%', // Zoom level
                         backgroundPosition: `${position.x}% ${position.y}%`
                     }}
@@ -86,9 +86,7 @@ const AccuracyGuarantee: React.FC = () => {
                 <div 
                     className="absolute inset-0 w-full h-full transition-transform duration-100 ease-out"
                     style={{
-                        // AQUI TENS DE POR A IMAGEM EDITADA (A mesma, mas com o fundo novo)
-                        // Para o teste funcionar bem, o recorte do barco tem de estar na mesma posição exata
-                        backgroundImage: `url('/images/img100.png')`, // <--- MUDA PARA A IMAGEM EDITADA
+                        backgroundImage: `url('/images/100.jpg')`, // <--- ALTERADO: Imagem Final
                         backgroundSize: '300%', // Zoom level igual
                         backgroundPosition: `${position.x}% ${position.y}%`
                     }}
@@ -105,7 +103,7 @@ const AccuracyGuarantee: React.FC = () => {
 
         </div>
 
-        {/* MÉTRICAS (Igual ao print que mandaste) */}
+        {/* MÉTRICAS */}
         <div className="max-w-4xl mx-auto mt-12 grid grid-cols-3 gap-8 border-t border-white/10 pt-8">
             <div className="text-center">
                 <h4 className="text-3xl font-display font-bold text-neon mb-1">100%</h4>

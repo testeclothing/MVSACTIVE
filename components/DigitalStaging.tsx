@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Layers, Droplets, Sun, Moon, Eraser, ScanLine, ArrowRight } from 'lucide-react';
+import { Layers, Droplets, Sun, Moon, Eraser, ScanLine } from 'lucide-react';
+import ComparisonSlider from './ComparisonSlider'; // <--- O NOSSO NOVO COMPONENTE
 
 const modules = [
   {
     id: 'hull',
-    label: 'Oceanic Relocation', // Nome Premium
+    label: 'Oceanic Relocation',
     icon: Droplets,
     beforeLabel: 'Dry Dock Data',
     afterLabel: 'Deployed Asset',
@@ -14,7 +15,7 @@ const modules = [
   },
   {
     id: 'weather',
-    label: 'Atmospheric Precision', // Nome Premium
+    label: 'Atmospheric Precision',
     icon: Sun,
     beforeLabel: 'Overcast Source',
     afterLabel: 'Solar Calibrated',
@@ -24,7 +25,7 @@ const modules = [
   },
   {
     id: 'interior',
-    label: 'Interior Modernization', // Nome Premium
+    label: 'Interior Modernization',
     icon: Layers,
     beforeLabel: 'Dated Interior',
     afterLabel: 'Refitted Space',
@@ -34,7 +35,7 @@ const modules = [
   },
   {
     id: 'twilight',
-    label: 'Nocturnal Activation', // Nome Premium
+    label: 'Nocturnal Activation',
     icon: Moon,
     beforeLabel: 'Daylight Raw',
     afterLabel: 'Evening Mood',
@@ -44,7 +45,7 @@ const modules = [
   },
   {
     id: 'eraser',
-    label: 'Visual Integrity', // Nome Premium
+    label: 'Visual Integrity',
     icon: Eraser,
     beforeLabel: 'Visual Noise',
     afterLabel: 'Pristine Asset',
@@ -65,7 +66,7 @@ const DigitalStaging: React.FC = () => {
 
         <div className="container mx-auto px-4 md:px-12 relative z-10">
         
-            {/* Section Header - Institutional Style */}
+            {/* Section Header */}
             <div className="text-center max-w-4xl mx-auto mb-16 lg:mb-24">
                 <div className="inline-flex items-center gap-3 mb-6">
                     <div className="h-[1px] w-8 bg-neon"></div>
@@ -88,15 +89,15 @@ const DigitalStaging: React.FC = () => {
             {/* MAIN INTERFACE CONTAINER */}
             <div className="flex flex-col gap-8 lg:gap-12 max-w-6xl mx-auto">
                 
-                {/* 1. The Viewport (Cinema Screen) */}
+                {/* 1. The Viewport (SLIDER INTERATIVO) */}
                 <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] bg-[#050505] rounded-sm border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden group">
                     
-                    {/* Top HUD Bar - Technical */}
+                    {/* Top HUD Bar - Technical Overlay */}
                     <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/90 to-transparent z-30 flex justify-between items-center px-6 pointer-events-none">
                         <div className="flex items-center gap-3">
                              <ScanLine className="w-3 h-3 text-neon opacity-80" />
                              <span className="text-[9px] font-mono text-white/70 uppercase tracking-widest border-l border-white/20 pl-3">
-                                Module: {activeModule.label}
+                                Active Module: {activeModule.label}
                              </span>
                         </div>
                         {/* Status Lights */}
@@ -106,34 +107,15 @@ const DigitalStaging: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* IMAGES CONTAINER */}
-                    <div className="absolute inset-0 flex w-full h-full">
-                        
-                        {/* LEFT SIDE: BEFORE (Raw Data) */}
-                        <div className="w-1/2 h-full relative border-r border-white/10 overflow-hidden">
-                            <div className="absolute inset-0 bg-black/20 z-10"></div> {/* Darken raw image slightly */}
-                            <img 
-                                src={activeModule.imageBefore} 
-                                alt={activeModule.beforeLabel} 
-                                className="w-full h-full object-cover grayscale transition-transform duration-1000 group-hover:scale-105"
-                            />
-                            <div className="absolute bottom-6 left-6 bg-black/80 backdrop-blur-md text-white/50 px-3 py-1.5 text-[8px] font-bold uppercase tracking-widest rounded-sm border border-white/10 z-20">
-                                {activeModule.beforeLabel}
-                            </div>
-                        </div>
-
-                        {/* RIGHT SIDE: AFTER (Processed) */}
-                        <div className="w-1/2 h-full relative overflow-hidden">
-                            <img 
-                                src={activeModule.imageAfter} 
-                                alt={activeModule.afterLabel} 
-                                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 saturate-[1.1]"
-                            />
-                            <div className="absolute bottom-6 right-6 bg-neon text-dark px-3 py-1.5 text-[8px] font-bold uppercase tracking-widest rounded-sm z-20 shadow-lg">
-                                {activeModule.afterLabel}
-                            </div>
-                        </div>
-
+                    {/* AQUI ESTÁ A MUDANÇA: O Slider em vez das imagens estáticas */}
+                    <div className="absolute inset-0 w-full h-full">
+                        <ComparisonSlider 
+                            key={activeModule.id} // Força o reset quando mudas de módulo
+                            imageBefore={activeModule.imageBefore}
+                            imageAfter={activeModule.imageAfter}
+                            labelBefore={activeModule.beforeLabel}
+                            labelAfter={activeModule.afterLabel}
+                        />
                     </div>
 
                     {/* Bottom HUD - Dynamic Description */}

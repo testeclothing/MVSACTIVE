@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ZoomIn, ZoomOut, RotateCcw, Move, Scan, Aperture, MousePointer2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { ZoomIn, ZoomOut, RotateCcw, Move, Scan, MousePointer2 } from 'lucide-react';
 
 const ExtremeDetail: React.FC = () => {
   const [scale, setScale] = useState(1);
@@ -10,7 +10,7 @@ const ExtremeDetail: React.FC = () => {
 
   // Limites de Zoom
   const MIN_SCALE = 1;
-  const MAX_SCALE = 15; // 15x é "Extreme" suficiente para web
+  const MAX_SCALE = 15; // Zoom extremo de 15x
 
   // Handler para Zoom com a Roda do Rato
   const handleWheel = (e: React.WheelEvent) => {
@@ -110,7 +110,7 @@ const ExtremeDetail: React.FC = () => {
                 <div className="text-[10px] font-mono tracking-widest border-l-2 border-neon pl-3">
                     <p>ZOOM: {Math.round(scale * 100)}%</p>
                     <p>X: {Math.round(position.x)} / Y: {Math.round(position.y)}</p>
-                    <p>ISO: 100 // F/4.0</p>
+                    <p>SOURCE: RAW_SENSOR_DATA</p>
                 </div>
             </div>
 
@@ -126,13 +126,9 @@ const ExtremeDetail: React.FC = () => {
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
             >
-                {/* 
-                   NOTA: Usa uma imagem de altíssima resolução aqui (4k+).
-                   Estou a usar uma imagem de stock de iate premium como exemplo.
-                */}
                 <img 
-                    src="https://images.unsplash.com/photo-1605218427306-022ba801c178?q=80&w=3000&auto=format&fit=crop" 
-                    alt="High Res Yacht Interior" 
+                    src="/images/img100.png" 
+                    alt="High Resolution Analysis" 
                     draggable={false}
                     className="max-w-none w-full h-full object-cover select-none"
                 />

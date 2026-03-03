@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Download, Sun, EyeOff, Clock, DollarSign, Zap, Globe, Lock } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Download, Sun, EyeOff, Clock, DollarSign, Zap, Globe, Lock, ZoomIn, ZoomOut, RotateCcw, Hand } from 'lucide-react';
 import { partners } from '../data/partners';
 import ComparisonSlider from './ComparisonSlider';
 
@@ -9,33 +9,65 @@ const PartnerDeck: React.FC = () => {
   const { partnerId } = useParams();
   const [currentSlide, setCurrentSlide] = useState(0);
   
-  // Tenta encontrar o parceiro na "base de dados"
+  // Estados para o Zoom (Slide 4)
+  const [zoomScale, setZoomScale] = useState(1);
+  const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const zoomContainerRef = useRef<HTMLDivElement>(null);
+  const startPan = useRef({ x: 0, y: 0 });
+
   // @ts-ignore
   const partner = partners[partnerId];
 
-  if (!partner) {
-    return (
-      <div className="bg-black h-screen text-white flex flex-col items-center justify-center font-mono">
-        <h1 className="text-4xl mb-4 text-neon">ACCESS DENIED</h1>
-        <p className="text-gray-500">Invalid Partner ID or Protocol Mismatch.</p>
-      </div>
-    );
-  }
+  if (!partner) return <div className="bg-black h-screen text-white flex items-center justify-center">Partner Not Found</div>;
 
   const totalSlides = 7;
   const nextSlide = () => setCurrentSlide(prev => Math.min(prev + 1, totalSlides - 1));
   const prevSlide = () => setCurrentSlide(prev => Math.max(prev - 1, 0));
 
-  // Função para renderizar cada slide
+  // --- LÓGICA DE ZOOM (Para o Slide 4) ---
+  const handleZoom = (direction: 'in' | 'out') => {
+    const factor = 2;
+    const newScale = direction === 'in' ? Math.min(15, zoomScale + factor) : Math.max(1, zoomScale - factor);
+    setZoomScale(newScale);
+    if (newScale === 1) setZoomPos({ x: 0, y: 0 });
+  };
+
+  const startDrag = (clientX: number, clientY: number) => {
+    if (zoomScale > 1) {
+        setIsDragging(true);
+        startPan.current = { x: clientX - zoomPos.x, y: clientY - zoomPos.y };
+    }
+  };
+
+  const onMove = (clientX: number, clientY: number) => {
+    if (!isDragging) return;
+    const newX = clientX - startPan.current.x;
+    const newY = clientY - startPan.current.y;
+    
+    // Limites (Clamping)
+    if (zoomContainerRef.current) {
+        const { offsetWidth, offsetHeight } = zoomContainerRef.current;
+        const limitX = (offsetWidth * zoomScale - offsetWidth) / 2;
+        const limitY = (offsetHeight * zoomScale - offsetHeight) / 2;
+        setZoomPos({
+            x: Math.max(-limitX, Math.min(limitX, newX)),
+            y: Math.max(-limitY, Math.min(limitY, newY))
+        });
+    }
+  };
+
+  // --- RENDERIZAÇÃO DOS SLIDES ---
   const renderSlide = () => {
     switch (currentSlide) {
+      
       // SLIDE 0: CAPA
       case 0:
         return (
           <div className="flex flex-col items-center justify-center h-full text-center px-6">
-            {/* Logo do Parceiro */}
-            <div className="mb-12 h-20 w-auto flex items-center justify-center">
-                 <img src={partner.logo} alt={partner.name} className="max-h-full max-w-[200px] object-contain brightness-0 invert" /> 
+            {/* Logo SEM FILTROS */}
+            <div className="mb-12 h-24 w-auto flex items-center justify-center">
+                 <img src={partner.logo} alt={partner.name} className="max-h-full max-w-[250px] object-contain" /> 
             </div>
             
             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 mb-6 border border-gray-800 px-4 py-2 rounded-full">
@@ -114,26 +146,51 @@ const PartnerDeck: React.FC = () => {
           </div>
         );
 
-      // SLIDE 4: DETALHE (ZOOM)
+      // SLIDE 4: DETALHE (ZOOM ATÉ 1500%)
       case 4:
         return (
             <div className="flex flex-col h-full justify-center px-6 max-w-5xl mx-auto w-full text-center">
                 <h2 className="font-display text-4xl text-white mb-4">Resolution Authority</h2>
-                <p className="text-gray-400 mb-12">100MP Sensor Fidelity. Inviting the buyer to inspect craftsmanship.</p>
+                <p className="text-gray-400 mb-8">100MP Sensor Fidelity. Inviting the buyer to inspect craftsmanship.</p>
                 
-                <div className="relative aspect-video bg-black rounded-lg border border-white/10 overflow-hidden group">
-                    <img src={partner.slides.exterior.after} className="w-full h-full object-cover opacity-50 group-hover:scale-150 transition-transform duration-[3s]" />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="bg-black/80 backdrop-blur-md border border-white/20 px-6 py-3 rounded-full flex items-center gap-3">
-                            <div className="w-2 h-2 bg-neon rounded-full animate-pulse"></div>
-                            <span className="text-xs font-mono text-neon">ZOOM 100% (HOVER TO INSPECT)</span>
-                        </div>
+                {/* ZONA DE ZOOM */}
+                <div 
+                    ref={zoomContainerRef}
+                    className="relative aspect-video bg-black rounded-lg border border-white/10 overflow-hidden cursor-move touch-none"
+                    onMouseDown={(e) => startDrag(e.clientX, e.clientY)}
+                    onMouseMove={(e) => onMove(e.clientX, e.clientY)}
+                    onMouseUp={() => setIsDragging(false)}
+                    onMouseLeave={() => setIsDragging(false)}
+                    onTouchStart={(e) => startDrag(e.touches[0].clientX, e.touches[0].clientY)}
+                    onTouchMove={(e) => onMove(e.touches[0].clientX, e.touches[0].clientY)}
+                    onTouchEnd={() => setIsDragging(false)}
+                >
+                    <img 
+                        src={partner.slides.exterior.after} 
+                        className="w-full h-full object-cover transition-transform duration-100 ease-out will-change-transform select-none pointer-events-none"
+                        style={{ transform: `translate(${zoomPos.x}px, ${zoomPos.y}px) scale(${zoomScale})` }}
+                        draggable={false}
+                    />
+                    
+                    {/* Controlos de Zoom */}
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/80 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 shadow-xl z-20">
+                        <button onClick={() => handleZoom('out')} disabled={zoomScale <= 1} className="disabled:opacity-30"><ZoomOut size={20} /></button>
+                        <span className="font-mono text-neon text-xs w-16">{Math.round(zoomScale * 100)}%</span>
+                        <button onClick={() => handleZoom('in')} disabled={zoomScale >= 15} className="disabled:opacity-30"><ZoomIn size={20} /></button>
+                        <button onClick={() => {setZoomScale(1); setZoomPos({x:0, y:0})}} className="border-l border-white/20 pl-4 ml-2"><RotateCcw size={18} /></button>
                     </div>
+
+                    {/* Aviso Mobile */}
+                    {zoomScale > 1 && (
+                        <div className="absolute top-4 right-4 md:hidden text-[9px] text-white/50 bg-black/50 px-2 py-1 rounded">
+                            <Hand className="w-3 h-3 inline mr-1"/> Drag to Pan
+                        </div>
+                    )}
                 </div>
             </div>
         );
 
-      // SLIDE 5: AUTENTICIDADE
+      // SLIDE 5: AUTENTICIDADE (SEM FILTROS, SEM GRELHAS)
       case 5:
         return (
             <div className="flex flex-col h-full justify-center px-6 max-w-6xl mx-auto w-full">
@@ -143,14 +200,16 @@ const PartnerDeck: React.FC = () => {
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
+                    {/* Imagem Original LIMPA */}
                     <div className="aspect-video bg-[#111] rounded border border-white/10 relative overflow-hidden">
-                        <img src={partner.slides.exterior.before} className="w-full h-full object-cover opacity-60 grayscale" />
-                        <div className="absolute top-4 left-4 bg-white text-black text-[9px] font-bold px-2 py-1">RAW GEOMETRY</div>
+                        <img src={partner.slides.exterior.before} className="w-full h-full object-cover" />
+                        <div className="absolute top-4 left-4 bg-white text-black text-[9px] font-bold px-2 py-1 uppercase rounded-sm">Original</div>
                     </div>
-                    <div className="aspect-video bg-[#111] rounded border border-neon/30 relative overflow-hidden">
+                    
+                    {/* Imagem MVS LIMPA */}
+                    <div className="aspect-video bg-[#111] rounded border border-white/10 relative overflow-hidden">
                         <img src={partner.slides.exterior.after} className="w-full h-full object-cover" />
-                        <div className="absolute top-4 left-4 bg-neon text-black text-[9px] font-bold px-2 py-1">MVS RENDER</div>
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(164,209,78,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(164,209,78,0.1)_1px,transparent_1px)] bg-[size:30px_30px] pointer-events-none"></div>
+                        <div className="absolute top-4 left-4 bg-neon text-black text-[9px] font-bold px-2 py-1 uppercase rounded-sm">MVS Render</div>
                     </div>
                 </div>
                 

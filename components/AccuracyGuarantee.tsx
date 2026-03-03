@@ -116,7 +116,7 @@ const AccuracyGuarantee: React.FC = () => {
                 <div 
                     className="absolute inset-0 w-full h-full transform-gpu transition-none"
                     style={{
-                        backgroundImage: `url('/images/300jpg')`,
+                        backgroundImage: `url('/images/300.jpg')`,
                         backgroundSize: '300%', 
                         backgroundPosition: `${position.x}% ${position.y}%`,
                         backgroundRepeat: 'no-repeat'

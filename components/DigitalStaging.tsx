@@ -10,7 +10,7 @@ const modules = [
     beforeLabel: 'Dry Dock / Warehouse',
     afterLabel: 'Pacific Cruising',
     // Antes: Imagem antiga de armazém (mantém ou substitui pela tua "raw")
-    imageBefore: '/images/img11.png', 
+    imageBefore: '/images/200.jpg', 
     // Depois: A tua nova foto exterior do Aquila
     imageAfter: '/images/img100.jpg',
     description: 'Proprietary isolation algorithm. We extract the vessel from shipyard cradles and composite it into a physics-accurate marine environment.',
@@ -22,9 +22,9 @@ const modules = [
     beforeLabel: 'Obstructed View',
     afterLabel: 'Clear Horizon',
     // Antes: Imagem antiga nublada
-    imageBefore: '/images/img22.png',
+    imageBefore: '/images/202.jpg',
     // Depois: A tua nova foto do posto de comando
-    imageAfter: '/images/img102.jpg',
+    imageAfter: '/images/102.jpg',
     description: 'Horizon calibration. We replace marina obstructions visible through the helm windows with a seamless, infinite ocean view.',
   },
   {
@@ -34,9 +34,9 @@ const modules = [
     beforeLabel: 'Factory Lighting',
     afterLabel: 'Lifestyle Ambience',
     // Antes: Imagem antiga interior
-    imageBefore: '/images/104.png',
+    imageBefore: '/images/204.jpg',
     // Depois: A tua nova foto da sala/mesa
-    imageAfter: '/images/aquila_salon.jpg',
+    imageAfter: '/images/104.jpg',
     description: 'Ambiance correction. We adjust color temperature and lighting to showcase the warmth and volume of the living spaces.',
   },
   {
@@ -46,7 +46,7 @@ const modules = [
     beforeLabel: 'Powered Off',
     afterLabel: 'Active Navigation',
     // Antes: Imagem antiga escura
-    imageBefore: '/images/img44.png',
+    imageBefore: '/images/205.jpg',
     // Depois: A tua nova foto dos ecrãs Garmin
     imageAfter: '/images/105.jpg',
     description: 'Digital system activation. We illuminate navigation screens and control panels to demonstrate operational readiness without powering up the vessel.',
@@ -58,9 +58,9 @@ const modules = [
     beforeLabel: 'Marina Clutter',
     afterLabel: 'Open Water',
     // Antes: Imagem antiga com vizinhos
-    imageBefore: '/images/img103.png',
+    imageBefore: '/images/203.jpg',
     // Depois: A tua nova foto a olhar para trás
-    imageAfter: '/images/aquila_aft.jpg',
+    imageAfter: '/images/103.jpg',
     description: 'Visual continuity. We erase neighboring boats and concrete docks to create a seamless connection between the aft-deck and the ocean.',
   },
 ];

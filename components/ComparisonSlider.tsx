@@ -1,109 +1,122 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { GripVertical } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { MoveHorizontal } from 'lucide-react';
 
 interface ComparisonSliderProps {
-  image: string;
-  aspectRatio?: string;
-  labelBefore?: string;
-  labelAfter?: string;
+  imageBefore: string;
+  imageAfter: string;
+  labelBefore: string;
+  labelAfter: string;
 }
 
 const ComparisonSlider: React.FC<ComparisonSliderProps> = ({ 
-  image, 
-  aspectRatio = 'aspect-[16/9]',
-  labelBefore = "Warehouse (Raw)",
-  labelAfter = "Ocean (Synthesized)",
+  imageBefore, 
+  imageAfter, 
+  labelBefore, 
+  labelAfter 
 }) => {
-  const [sliderPosition, setSliderPosition] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [position, setPosition] = useState(50); // Começa a meio (50%)
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleMove = useCallback((clientX: number) => {
-    if (containerRef.current) {
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-      const percentage = (x / rect.width) * 100;
-      setSliderPosition(percentage);
-    }
+  const stopResizing = useCallback(() => {
+    setIsResizing(false);
   }, []);
 
-  const handleMouseDown = () => setIsDragging(true);
-  
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging) handleMove(e.clientX);
-  };
+  const startResizing = useCallback(() => {
+    setIsResizing(true);
+  }, []);
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    handleMove(e.touches[0].clientX);
-  };
+  const resize = useCallback(
+    (clientX: number) => {
+      if (containerRef.current) {
+        const { left, width } = containerRef.current.getBoundingClientRect();
+        const newPosition = ((clientX - left) / width) * 100;
+        // Limites entre 0% e 100%
+        setPosition(Math.min(Math.max(newPosition, 0), 100));
+      }
+    },
+    []
+  );
 
+  // Listeners globais para garantir que o arrasto não para se o rato sair do componente
   useEffect(() => {
-    const handleGlobalMouseUp = () => setIsDragging(false);
-    window.addEventListener('mouseup', handleGlobalMouseUp);
-    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-  }, []);
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+      resize(e.clientX);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isResizing) return;
+      resize(e.touches[0].clientX);
+    };
+
+    const handleMouseUp = () => stopResizing();
+    const handleTouchEnd = () => stopResizing();
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isResizing, resize, stopResizing]);
 
   return (
     <div 
-      ref={containerRef}
-      className={`relative w-full ${aspectRatio} overflow-hidden cursor-col-resize select-none bg-[#050505] rounded-lg group`}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onTouchMove={handleTouchMove}
+        ref={containerRef}
+        className="relative w-full h-full overflow-hidden select-none group cursor-ew-resize"
+        onMouseDown={startResizing}
+        onTouchStart={startResizing}
     >
-      {/* Placeholder / Loading State Background */}
-      <div className="absolute inset-0 bg-[#050505] flex items-center justify-center">
-         <div className="text-white/20 text-[10px] font-bold uppercase tracking-widest animate-pulse">Loading Asset...</div>
-      </div>
-
-      {/* After Image (Background - Color) */}
-      <img 
-        src={image} 
-        alt="After" 
+      {/* 1. IMAGEM AFTER (Fundo Completo - Lado Direito) */}
+      <img
+        src={imageAfter}
+        alt="After"
         draggable={false}
-        className="absolute inset-0 w-full h-full object-cover bg-[#050505] select-none"
+        className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
       />
-      
-      {/* Label After */}
-      <div className="absolute top-6 right-6 z-10 pointer-events-none">
-        <span className="text-white text-[9px] font-bold tracking-[0.2em] uppercase bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-sm shadow-lg">
+      {/* Label After (Canto Inferior Direito) */}
+      <div className="absolute bottom-6 right-6 z-10">
+         <span className="bg-neon text-dark text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm shadow-lg">
             {labelAfter}
-        </span>
+         </span>
       </div>
 
-      {/* Before Image (Clipped - Grayscale/Bad) */}
-      <div 
-        className="absolute inset-0 w-full h-full overflow-hidden bg-[#050505]"
-        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      {/* 2. IMAGEM BEFORE (Topo - Recortada - Lado Esquerdo) */}
+      <div
+        className="absolute inset-0 w-full h-full overflow-hidden select-none"
+        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }} // A Magia acontece aqui
       >
-        <img 
-          src={image} 
-          alt="Before" 
+        <img
+          src={imageBefore}
+          alt="Before"
           draggable={false}
-          className="absolute inset-0 w-full h-full object-cover max-w-none grayscale brightness-75 contrast-125 bg-[#050505] select-none"
+          className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
         />
-        
-        {/* Label Before */}
-        <div className="absolute top-6 left-6 z-10 pointer-events-none">
-             <span className="text-white text-[9px] font-bold tracking-[0.2em] uppercase bg-black/40 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-sm shadow-lg">
+         {/* Label Before (Canto Inferior Esquerdo) */}
+        <div className="absolute bottom-6 left-6 z-10">
+            <span className="bg-white/90 text-dark border border-gray-200 text-[9px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm shadow-lg">
                 {labelBefore}
             </span>
         </div>
       </div>
 
-      {/* Slider Handle */}
-      <div 
-        className="absolute top-0 bottom-0 w-0.5 bg-neon z-20 flex items-center justify-center shadow-[0_0_15px_rgba(204,243,129,0.5)]"
-        style={{ left: `${sliderPosition}%` }}
+      {/* 3. A LINHA DIVISÓRIA (Slider) */}
+      <div
+        className="absolute top-0 bottom-0 w-1 bg-neon cursor-ew-resize z-20 shadow-[0_0_20px_rgba(164,209,78,0.5)]"
+        style={{ left: `${position}%` }}
       >
-        {/* Shadow Line attached to handle (Left Side) */}
-        <div className="absolute top-0 right-full h-full w-12 bg-gradient-to-r from-transparent to-black/80 pointer-events-none"></div>
-
-        {/* The Handle Button - Milled Aluminum Look */}
-        <div className="w-10 h-10 rounded-sm bg-gradient-to-br from-gray-100 to-gray-300 border border-white flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.5)] transform transition-transform group-hover:scale-110 active:scale-95">
-            <GripVertical className="w-5 h-5 text-dark" strokeWidth={2} />
+        {/* O Puxador (Handle) */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-neon rounded-full flex items-center justify-center shadow-lg border-2 border-white">
+          <MoveHorizontal className="w-4 h-4 text-dark" />
         </div>
       </div>
+      
     </div>
   );
 };

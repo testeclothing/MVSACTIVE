@@ -9,21 +9,19 @@ const modules = [
     icon: Droplets,
     beforeLabel: 'Dry Dock / Warehouse',
     afterLabel: 'Pacific Cruising',
-    // Antes: Imagem antiga de armazém (mantém ou substitui pela tua "raw")
-    imageBefore: '/images/200.jpg', 
-    // Depois: A tua nova foto exterior do Aquila
+    // Imagens do Módulo 1 (Exterior)
+    imageBefore: '/images/200.jpg',
     imageAfter: '/images/img100.jpg',
     description: 'Proprietary isolation algorithm. We extract the vessel from shipyard cradles and composite it into a physics-accurate marine environment.',
   },
   {
     id: 'weather',
-    label: 'Bridge Perspective', // Mudado para combinar com a foto do comando
+    label: 'Bridge Perspective',
     icon: Sun,
     beforeLabel: 'Obstructed View',
     afterLabel: 'Clear Horizon',
-    // Antes: Imagem antiga nublada
+    // Imagens do Módulo 2 (Comando)
     imageBefore: '/images/202.jpg',
-    // Depois: A tua nova foto do posto de comando
     imageAfter: '/images/102.jpg',
     description: 'Horizon calibration. We replace marina obstructions visible through the helm windows with a seamless, infinite ocean view.',
   },
@@ -33,33 +31,30 @@ const modules = [
     icon: Layers,
     beforeLabel: 'Factory Lighting',
     afterLabel: 'Lifestyle Ambience',
-    // Antes: Imagem antiga interior
+    // Imagens do Módulo 3 (Interior)
     imageBefore: '/images/204.jpg',
-    // Depois: A tua nova foto da sala/mesa
     imageAfter: '/images/104.jpg',
     description: 'Ambiance correction. We adjust color temperature and lighting to showcase the warmth and volume of the living spaces.',
   },
   {
     id: 'systems',
-    label: 'Systems Activation', // Mudado para combinar com a foto dos ecrãs
+    label: 'Systems Activation',
     icon: Moon,
     beforeLabel: 'Powered Off',
     afterLabel: 'Active Navigation',
-    // Antes: Imagem antiga escura
+    // Imagens do Módulo 4 (Sistemas/Ecrãs)
     imageBefore: '/images/205.jpg',
-    // Depois: A tua nova foto dos ecrãs Garmin
     imageAfter: '/images/105.jpg',
     description: 'Digital system activation. We illuminate navigation screens and control panels to demonstrate operational readiness without powering up the vessel.',
   },
   {
     id: 'flow',
-    label: 'Indoor-Outdoor Flow', // Mudado para combinar com a foto da popa
+    label: 'Indoor-Outdoor Flow',
     icon: Eraser,
     beforeLabel: 'Marina Clutter',
     afterLabel: 'Open Water',
-    // Antes: Imagem antiga com vizinhos
+    // Imagens do Módulo 5 (Popa/Exterior)
     imageBefore: '/images/203.jpg',
-    // Depois: A tua nova foto a olhar para trás
     imageAfter: '/images/103.jpg',
     description: 'Visual continuity. We erase neighboring boats and concrete docks to create a seamless connection between the aft-deck and the ocean.',
   },
@@ -99,7 +94,7 @@ const DigitalStaging: React.FC = () => {
             {/* MAIN INTERFACE CONTAINER */}
             <div className="flex flex-col gap-8 lg:gap-12 max-w-6xl mx-auto">
                 
-                {/* 1. The Viewport (SLIDER INTERATIVO) */}
+                {/* 1. The Viewport (SLIDER) */}
                 <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] bg-[#050505] rounded-sm border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden group">
                     
                     {/* Top HUD Bar */}
@@ -110,14 +105,13 @@ const DigitalStaging: React.FC = () => {
                                 Module: {activeModule.label}
                              </span>
                         </div>
-                        {/* Status Lights */}
                         <div className="flex gap-1.5">
                             <div className="w-1 h-1 bg-neon rounded-full animate-pulse"></div>
                             <div className="w-1 h-1 bg-white/20 rounded-full"></div>
                         </div>
                     </div>
 
-                    {/* SLIDER COMPONENT */}
+                    {/* COMPARISON SLIDER */}
                     <div className="absolute inset-0 w-full h-full">
                         <ComparisonSlider 
                             key={activeModule.id}
@@ -128,7 +122,7 @@ const DigitalStaging: React.FC = () => {
                         />
                     </div>
 
-                    {/* Bottom HUD - Dynamic Description */}
+                    {/* Bottom HUD */}
                     <div className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none flex justify-center pb-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         <div className="bg-black/90 backdrop-blur-xl border border-white/10 rounded-sm p-6 max-w-lg mx-4 shadow-2xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                              <div className="flex items-start gap-4">
@@ -145,7 +139,7 @@ const DigitalStaging: React.FC = () => {
 
                 </div>
 
-                {/* 2. The Lens Rack (Selector Strip) */}
+                {/* 2. Selector Strip */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                     {modules.map((mod) => (
                         <button

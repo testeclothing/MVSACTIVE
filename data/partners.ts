@@ -4,7 +4,7 @@ export const partners = {
   'soproyachts': {
     name: 'Sopro Yachts',
     // Caminho atualizado para o teu ficheiro específico
-    logo: '/partners/sopro/logosopro.png', 
+    logo: '/partners/sopro/logosopro2.png', 
     slides: {
       cover: {
         title: "Commanding the Market.",

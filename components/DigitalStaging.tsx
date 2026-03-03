@@ -9,7 +9,6 @@ const modules = [
     icon: Droplets,
     beforeLabel: 'Dry Dock / Warehouse',
     afterLabel: 'Pacific Cruising',
-    // Imagens do Módulo 1 (Exterior)
     imageBefore: '/images/200.jpg',
     imageAfter: '/images/img100.jpg',
     description: 'Proprietary isolation algorithm. We extract the vessel from shipyard cradles and composite it into a physics-accurate marine environment.',
@@ -20,7 +19,6 @@ const modules = [
     icon: Sun,
     beforeLabel: 'Obstructed View',
     afterLabel: 'Clear Horizon',
-    // Imagens do Módulo 2 (Comando)
     imageBefore: '/images/202.jpg',
     imageAfter: '/images/102.jpg',
     description: 'Horizon calibration. We replace marina obstructions visible through the helm windows with a seamless, infinite ocean view.',
@@ -31,7 +29,6 @@ const modules = [
     icon: Layers,
     beforeLabel: 'Factory Lighting',
     afterLabel: 'Lifestyle Ambience',
-    // Imagens do Módulo 3 (Interior)
     imageBefore: '/images/204.jpg',
     imageAfter: '/images/104.jpg',
     description: 'Ambiance correction. We adjust color temperature and lighting to showcase the warmth and volume of the living spaces.',
@@ -42,7 +39,6 @@ const modules = [
     icon: Moon,
     beforeLabel: 'Powered Off',
     afterLabel: 'Active Navigation',
-    // Imagens do Módulo 4 (Sistemas/Ecrãs)
     imageBefore: '/images/205.jpg',
     imageAfter: '/images/105.jpg',
     description: 'Digital system activation. We illuminate navigation screens and control panels to demonstrate operational readiness without powering up the vessel.',
@@ -53,7 +49,6 @@ const modules = [
     icon: Eraser,
     beforeLabel: 'Marina Clutter',
     afterLabel: 'Open Water',
-    // Imagens do Módulo 5 (Popa/Exterior)
     imageBefore: '/images/203.jpg',
     imageAfter: '/images/103.jpg',
     description: 'Visual continuity. We erase neighboring boats and concrete docks to create a seamless connection between the aft-deck and the ocean.',
@@ -95,7 +90,8 @@ const DigitalStaging: React.FC = () => {
             <div className="flex flex-col gap-8 lg:gap-12 max-w-6xl mx-auto">
                 
                 {/* 1. The Viewport (SLIDER) */}
-                <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] bg-[#050505] rounded-sm border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden group">
+                {/* AQUI ESTÁ A MUDANÇA: aspect-video dá formato 16:9 (mais alto) */}
+                <div className="relative w-full aspect-[4/3] lg:aspect-video bg-[#050505] rounded-sm border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden group">
                     
                     {/* Top HUD Bar */}
                     <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/90 to-transparent z-30 flex justify-between items-center px-6 pointer-events-none">

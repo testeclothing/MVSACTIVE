@@ -10,7 +10,7 @@ const modules = [
     beforeLabel: 'Dry Dock / Warehouse',
     afterLabel: 'Pacific Cruising',
     imageBefore: '/images/200.jpg',
-    imageAfter: '/images/img100.jpg',
+    imageAfter: '/images/300.jpg',
     description: 'Proprietary isolation algorithm. We extract the vessel from shipyard cradles and composite it into a physics-accurate marine environment.',
   },
   {

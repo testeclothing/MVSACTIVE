@@ -2,8 +2,9 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import DigitalStaging from './components/DigitalStaging';
+import AccuracyGuarantee from './components/AccuracyGuarantee'; // <--- NOVA IMPORTAÇÃO
 import ListingDemo from './components/ListingDemo';
-import ExtremeDetail from './components/ExtremeDetail'; // <--- NOVA IMPORTAÇÃO
+import ExtremeDetail from './components/ExtremeDetail';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
@@ -43,25 +44,25 @@ const App: React.FC = () => {
         <Chatbot />
         <MobileBottomNav />
         <main className="flex-grow">
-          {/* 1. O Padrão Global */}
+          {/* 1. O Padrão Global (Impacto) */}
           <Hero />
           
-          {/* 2. Engenharia Visual (Serviços) */}
+          {/* 2. Engenharia Visual (O Processo - Slider Antes/Depois) */}
           <DigitalStaging />
+
+          {/* 3. Garantia Forense (A Segurança - Geometria Bloqueada) - NOVO */}
+          <AccuracyGuarantee />
           
-          {/* 3. Prova de Valor (Case Study) */}
+          {/* 4. Case Study (O Resultado Financeiro) */}
           <ListingDemo />
 
-          {/* 4. Prova de Qualidade (Zoom Infinito) - NOVO */}
+          {/* 5. Zoom Infinito (A Prova Técnica) */}
           <ExtremeDetail />
-
-             {/* PROVA DE AUTENTICIDADE */}
-          <AccuracyGuarantee /> 
           
-          {/* 5. Perguntas Frequentes */}
+          {/* 6. Dúvidas */}
           <FAQ />
           
-          {/* 6. Acesso Reservado */}
+          {/* 7. Acesso Reservado (Exclusividade) */}
           <Contact />
         </main>
         <Footer />

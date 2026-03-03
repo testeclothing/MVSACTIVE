@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ZoomIn, ZoomOut, RotateCcw, Move, Scan, MousePointer2 } from 'lucide-react';
 
 const ExtremeDetail: React.FC = () => {
@@ -6,25 +6,33 @@ const ExtremeDetail: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [startPan, setStartPan] = useState({ x: 0, y: 0 });
+  
+  // Referência para o container principal
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Limites de Zoom
   const MIN_SCALE = 1;
-  const MAX_SCALE = 15; // Zoom extremo de 15x
+  const MAX_SCALE = 15;
 
-  // Handler para Zoom com a Roda do Rato
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault(); // Impede o scroll da página enquanto faz zoom
-    const delta = e.deltaY * -0.01;
-    const newScale = Math.min(Math.max(MIN_SCALE, scale + delta), MAX_SCALE);
-    
-    setScale(newScale);
+  // 1. Bloqueio agressivo de Scroll (Effect para garantir que funciona em todos os browsers)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
 
-    // Se fizer zoom out total, reseta a posição para o centro
-    if (newScale === 1) {
-      setPosition({ x: 0, y: 0 });
-    }
-  };
+    const preventScroll = (e: WheelEvent) => {
+      e.preventDefault();
+      // Lógica de zoom aqui dentro para garantir fluidez
+      const delta = e.deltaY * -0.01;
+      setScale(prev => Math.min(Math.max(MIN_SCALE, prev + delta), MAX_SCALE));
+    };
+
+    // Adiciona o listener como "non-passive" para permitir o preventDefault
+    container.addEventListener('wheel', preventScroll, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', preventScroll);
+    };
+  }, []);
 
   // Handlers para Arrastar (Pan)
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -46,7 +54,7 @@ const ExtremeDetail: React.FC = () => {
     setIsDragging(false);
   };
 
-  // Botões de Controlo
+  // Botões
   const handleZoomBtn = (direction: 'in' | 'out') => {
     const factor = 0.5;
     const newScale = direction === 'in' 
@@ -65,13 +73,13 @@ const ExtremeDetail: React.FC = () => {
   return (
     <section className="py-24 bg-[#0B0C10] relative overflow-hidden border-t border-white/5">
       
-      {/* Background Grid - Engineering Feel */}
+      {/* Background Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         
-        {/* Header Institucional */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        {/* Header - Alinhado e contido */}
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-end mb-10">
             <div>
                 <div className="flex items-center gap-2 mb-4">
                     <Scan className="w-4 h-4 text-neon" />
@@ -79,7 +87,7 @@ const ExtremeDetail: React.FC = () => {
                         Resolution Analysis
                     </span>
                 </div>
-                <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-2">
+                <h2 className="font-display text-3xl font-bold text-white mb-2">
                     Infinite Detail.
                 </h2>
                 <p className="text-gray-400 text-sm font-light">
@@ -90,22 +98,23 @@ const ExtremeDetail: React.FC = () => {
             <div className="hidden md:flex items-center gap-4 text-gray-500">
                 <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest">
                     <MousePointer2 className="w-3 h-3" />
-                    Scroll to Zoom
-                </div>
-                <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest">
-                    <Move className="w-3 h-3" />
-                    Drag to Pan
+                    Interact to Inspect
                 </div>
             </div>
         </div>
 
-        {/* AREA DE ZOOM (VIEWPORT) */}
+        {/* 
+            AREA DE ZOOM (VIEWPORT) 
+            - Adicionado max-w-5xl para alinhar com a secção de cima.
+            - touch-action: none impede o scroll da página no telemóvel.
+        */}
         <div 
-          className="relative w-full h-[600px] bg-black rounded-sm border border-white/10 overflow-hidden shadow-2xl group cursor-crosshair"
-          onWheel={handleWheel}
+          ref={containerRef}
+          className="relative w-full max-w-5xl mx-auto h-[500px] bg-black rounded-sm border border-white/10 overflow-hidden shadow-2xl group cursor-crosshair"
+          style={{ touchAction: 'none' }} 
           onMouseLeave={handleMouseUp}
         >
-            {/* O HUD (Heads Up Display) Fixo */}
+            {/* O HUD (Heads Up Display) */}
             <div className="absolute top-6 left-6 z-30 pointer-events-none mix-blend-difference text-white/80">
                 <div className="text-[10px] font-mono tracking-widest border-l-2 border-neon pl-3">
                     <p>ZOOM: {Math.round(scale * 100)}%</p>
@@ -116,7 +125,6 @@ const ExtremeDetail: React.FC = () => {
 
             {/* A Imagem Transformável */}
             <div 
-                ref={containerRef}
                 className="w-full h-full flex items-center justify-center transition-transform duration-75 ease-out origin-center"
                 style={{ 
                     transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
@@ -125,19 +133,22 @@ const ExtremeDetail: React.FC = () => {
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
+                // Eventos de toque para Mobile (Simples)
+                onTouchStart={() => setIsDragging(true)}
+                onTouchEnd={() => setIsDragging(false)}
             >
                 <img 
                     src="/images/img100.png" 
                     alt="High Resolution Analysis" 
                     draggable={false}
-                    className="max-w-none w-full h-full object-cover select-none"
+                    className="max-w-none w-full h-full object-cover select-none pointer-events-none"
                 />
             </div>
 
-            {/* Overlay de Grelha Técnica (Aparece quando faz zoom) */}
+            {/* Overlay de Grelha Técnica (Aparece com Zoom) */}
             <div 
                 className="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-500 border border-neon/20"
-                style={{ opacity: scale > 2 ? 0.3 : 0 }}
+                style={{ opacity: scale > 1.5 ? 0.3 : 0 }}
             >
                 <div className="w-full h-full bg-[linear-gradient(rgba(164,209,78,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(164,209,78,0.1)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
                 <div className="absolute center top-1/2 left-1/2 w-20 h-20 border border-neon/50 -translate-x-1/2 -translate-y-1/2"></div>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Home, ScanLine, Image, DollarSign, Zap } from 'lucide-react';
+import { Home, Layers, BarChart3, Lock } from 'lucide-react';
 
 const MobileBottomNav: React.FC = () => {
+  
   const scrollTo = (id: string) => {
     if (id === 'top') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -14,35 +15,60 @@ const MobileBottomNav: React.FC = () => {
   };
 
   const navItems = [
-      { icon: Home, label: 'Home', target: 'top' },
-      { icon: ScanLine, label: 'Demo', target: '#engine' }, 
-      { icon: Image, label: 'Work', target: '#work' },      
-      { icon: DollarSign, label: 'Price', target: '#investment' }, 
-      { icon: Zap, label: 'Trial', target: '#pilot' },      
+      { 
+        icon: Home, 
+        label: 'HQ', 
+        target: 'top',
+        activeColor: 'text-white'
+      },
+      { 
+        icon: Layers, 
+        label: 'Engine', 
+        target: '#services', // Vai para o Slider Antes/Depois
+        activeColor: 'text-white'
+      }, 
+      { 
+        icon: BarChart3, 
+        label: 'Data', 
+        target: '#demo', // Vai para o Case Study (Métricas)
+        activeColor: 'text-white'
+      },      
+      { 
+        icon: Lock, 
+        label: 'Access', 
+        target: '#audit', // Vai para o Contacto (Acesso Reservado)
+        activeColor: 'text-neon' // Destaque em verde
+      }, 
   ];
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 w-full z-[100] bg-white dark:bg-[#050505] border-t border-gray-200 dark:border-white/10 shadow-[0_-5px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_-5px_30px_rgba(0,0,0,0.5)] transition-all duration-500 pb-safe">
-        {/* Neon Accent Line for Visibility */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-neon/50 to-transparent opacity-50"></div>
+    <div className="md:hidden fixed bottom-0 left-0 w-full z-[100] bg-[#050505]/90 backdrop-blur-xl border-t border-white/10 transition-all duration-500 pb-safe">
         
-      <div className="grid grid-cols-5 h-[68px] items-center px-1">
+      {/* Grid de 4 Colunas (Mais espaçado que o antigo de 5) */}
+      <div className="grid grid-cols-4 h-[70px] items-center px-2 pb-2">
         {navItems.map((item, index) => (
             <button 
                 key={index}
                 onClick={() => scrollTo(item.target)} 
-                className="group flex flex-col items-center justify-center gap-1.5 text-gray-500 dark:text-gray-400 hover:text-dark dark:hover:text-white transition-colors h-full w-full active:bg-gray-50 dark:active:bg-white/5 active:scale-95 rounded-sm"
+                className="group flex flex-col items-center justify-center gap-1.5 text-gray-500 hover:text-white transition-colors h-full w-full active:scale-95"
             >
-                <div className="relative">
-                    <item.icon className="w-5 h-5 group-hover:text-neon transition-colors" strokeWidth={1.5} />
+                <div className={`relative ${item.label === 'Access' ? 'text-neon' : ''}`}>
+                    <item.icon className="w-5 h-5 transition-colors" strokeWidth={1.5} />
+                    
+                    {/* Brilho subtil apenas no botão de acesso */}
+                    {item.label === 'Access' && (
+                        <div className="absolute inset-0 bg-neon blur-[12px] opacity-20"></div>
+                    )}
                 </div>
-                <span className="text-[9px] font-bold uppercase tracking-widest group-hover:text-dark dark:group-hover:text-white transition-colors">{item.label}</span>
+                <span className={`text-[8px] font-bold uppercase tracking-widest transition-colors ${item.label === 'Access' ? 'text-neon' : 'group-hover:text-white'}`}>
+                    {item.label}
+                </span>
             </button>
         ))}
       </div>
       
-      {/* Safe Area Spacer - Solid to prevent bleed */}
-      <div className="h-5 w-full bg-white dark:bg-[#050505]"></div>
+      {/* Espaçador para a barra preta do iPhone (Home Indicator) */}
+      <div className="h-6 w-full bg-transparent"></div>
     </div>
   );
 };

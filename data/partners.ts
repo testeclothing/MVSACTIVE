@@ -13,7 +13,7 @@ export const partners = {
       exterior: {
         // Mapeado para as imagens que carregaste
         before: '/partners/sopro/200.jpg', 
-        after: '/partners/sopro/img100.jpg',   
+        after: '/partners/sopro/300.jpg',   
       },
       interior: {
         // Mapeado para as imagens que carregaste

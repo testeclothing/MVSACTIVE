@@ -64,11 +64,11 @@ const PartnerDeck: React.FC = () => {
       case 0:
         return (
           <div className="flex flex-col items-center justify-center h-full text-center px-6 pb-20">
-            <div className="mb-8 md:mb-10 h-16 md:h-20 w-auto flex items-center justify-center">
+            <div className="mb-8 md:mb-10 h-16 md:h-24 w-auto flex items-center justify-center">
                  <img src={partner.logo} alt={partner.name} className="max-h-full max-w-[200px] md:max-w-[300px] object-contain" /> 
             </div>
             
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 mb-6 border border-gray-800 px-4 py-2 rounded-full">
+            <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 mb-6 border border-gray-800 px-4 py-2 rounded-full">
               Asset Valuation Strategy
             </span>
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -106,17 +106,17 @@ const PartnerDeck: React.FC = () => {
           </div>
         );
 
-      // SLIDE 2: EXTERIOR (FIXED HEIGHT)
+      // SLIDE 2: EXTERIOR (CORRIGIDO: 16:9 + CABE NO ECRÃ)
       case 2:
         return (
-          <div className="flex flex-col h-full px-4 md:px-6 max-w-7xl mx-auto w-full pb-24 pt-8 md:pt-12">
-             <div className="text-center mb-4 shrink-0">
+          <div className="flex flex-col h-full justify-center items-center px-4 md:px-6 w-full pb-24 pt-4">
+             <div className="text-center mb-6 shrink-0">
                 <h2 className="font-display text-2xl md:text-3xl text-white">Oceanic Deployment</h2>
                 <p className="text-gray-500 text-xs md:text-sm">Relocating the asset from static storage to its natural environment.</p>
              </div>
              
-             {/* AQUI ESTÁ A CORREÇÃO: flex-1 e min-h-0 obrigam a imagem a caber no ecrã sem scroll */}
-             <div className="flex-1 min-h-0 relative rounded-lg overflow-hidden border border-white/10 bg-[#050505]">
+             {/* CAIXA RESTRITA: Respeita o aspect-video (16:9) e não cresce demais */}
+             <div className="w-full max-w-6xl aspect-video max-h-[60vh] relative rounded-lg overflow-hidden border border-white/10 bg-[#050505]">
                 <ComparisonSlider 
                     imageBefore={partner.slides.exterior.before}
                     imageAfter={partner.slides.exterior.after}
@@ -127,17 +127,17 @@ const PartnerDeck: React.FC = () => {
           </div>
         );
 
-      // SLIDE 3: INTERIOR (FIXED HEIGHT)
+      // SLIDE 3: INTERIOR (CORRIGIDO: 16:9 + CABE NO ECRÃ)
       case 3:
         return (
-          <div className="flex flex-col h-full px-4 md:px-6 max-w-7xl mx-auto w-full pb-24 pt-8 md:pt-12">
-             <div className="text-center mb-4 shrink-0">
+          <div className="flex flex-col h-full justify-center items-center px-4 md:px-6 w-full pb-24 pt-4">
+             <div className="text-center mb-6 shrink-0">
                 <h2 className="font-display text-2xl md:text-3xl text-white">Atmospheric Curation</h2>
                 <p className="text-gray-500 text-xs md:text-sm">Staging the onboard experience to align with contemporary luxury codes.</p>
              </div>
              
-             {/* AQUI ESTÁ A CORREÇÃO: flex-1 e min-h-0 */}
-             <div className="flex-1 min-h-0 relative rounded-lg overflow-hidden border border-white/10 bg-[#050505]">
+             {/* CAIXA RESTRITA: 16:9 e limite de altura */}
+             <div className="w-full max-w-6xl aspect-video max-h-[60vh] relative rounded-lg overflow-hidden border border-white/10 bg-[#050505]">
                 <ComparisonSlider 
                     imageBefore={partner.slides.interior.before}
                     imageAfter={partner.slides.interior.after}
@@ -148,18 +148,18 @@ const PartnerDeck: React.FC = () => {
           </div>
         );
 
-      // SLIDE 4: DETALHE (FIXED HEIGHT)
+      // SLIDE 4: DETALHE
       case 4:
         return (
-            <div className="flex flex-col h-full px-4 md:px-6 max-w-6xl mx-auto w-full pb-24 pt-8 md:pt-12">
-                <div className="mb-4 text-center shrink-0">
-                    <h2 className="font-display text-2xl md:text-3xl text-white mb-2">Resolution Authority</h2>
-                    <p className="text-gray-400 text-xs md:text-sm">100MP Sensor Fidelity. Inviting the buyer to inspect craftsmanship.</p>
+            <div className="flex flex-col h-full justify-center items-center px-4 md:px-6 w-full pb-24 pt-4">
+                <div className="mb-6 text-center shrink-0">
+                    <h2 className="font-display text-2xl md:text-4xl text-white mb-2">Resolution Authority</h2>
+                    <p className="text-gray-400 text-xs md:text-base">100MP Sensor Fidelity. Inviting the buyer to inspect craftsmanship.</p>
                 </div>
                 
                 <div 
                     ref={zoomContainerRef}
-                    className="flex-1 min-h-0 w-full bg-black rounded-lg border border-white/10 overflow-hidden cursor-move touch-none relative"
+                    className="w-full max-w-5xl aspect-video max-h-[60vh] bg-black rounded-lg border border-white/10 overflow-hidden cursor-move touch-none relative"
                     onMouseDown={(e) => startDrag(e.clientX, e.clientY)}
                     onMouseMove={(e) => onMove(e.clientX, e.clientY)}
                     onMouseUp={() => setIsDragging(false)}
@@ -175,7 +175,6 @@ const PartnerDeck: React.FC = () => {
                         draggable={false}
                     />
                     
-                    {/* Controlos */}
                     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-black/90 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 shadow-xl z-20 whitespace-nowrap">
                         <button onClick={() => handleZoom('out')} disabled={zoomScale <= 1} className="disabled:opacity-30"><ZoomOut size={18} /></button>
                         <span className="font-mono text-neon text-xs w-12 text-center">{Math.round(zoomScale * 100)}%</span>
@@ -183,7 +182,6 @@ const PartnerDeck: React.FC = () => {
                         <button onClick={() => {setZoomScale(1); setZoomPos({x:0, y:0})}} className="border-l border-white/20 pl-4 ml-2"><RotateCcw size={16} /></button>
                     </div>
 
-                    {/* Aviso Mobile */}
                     {zoomScale > 1 && (
                         <div className="absolute top-4 right-4 md:hidden text-[9px] text-white/70 bg-black/60 px-2 py-1 rounded backdrop-blur-sm border border-white/10">
                             <Hand className="w-3 h-3 inline mr-1"/> Drag to Pan
@@ -202,13 +200,13 @@ const PartnerDeck: React.FC = () => {
                     <h2 className="font-display text-2xl md:text-3xl text-white">The Authenticity Protocol</h2>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0 overflow-y-auto md:overflow-visible">
-                    <div className="relative rounded border border-white/10 overflow-hidden bg-[#111] min-h-[200px]">
-                        <img src={partner.slides.exterior.before} className="absolute inset-0 w-full h-full object-cover" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1 min-h-0 overflow-y-auto md:overflow-visible items-center">
+                    <div className="aspect-video bg-[#111] rounded border border-white/10 relative overflow-hidden">
+                        <img src={partner.slides.exterior.before} className="w-full h-full object-cover" />
                         <div className="absolute top-4 left-4 bg-white text-black text-[9px] font-bold px-2 py-1 uppercase rounded-sm">Original</div>
                     </div>
-                    <div className="relative rounded border border-white/10 overflow-hidden bg-[#111] min-h-[200px]">
-                        <img src={partner.slides.exterior.after} className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="aspect-video bg-[#111] rounded border border-white/10 relative overflow-hidden">
+                        <img src={partner.slides.exterior.after} className="w-full h-full object-cover" />
                         <div className="absolute top-4 left-4 bg-neon text-black text-[9px] font-bold px-2 py-1 uppercase rounded-sm">MVS Render</div>
                     </div>
                 </div>
@@ -229,7 +227,7 @@ const PartnerDeck: React.FC = () => {
                     <p className="text-gray-500 text-sm md:text-base">Why elite brokerages utilize the MVS Protocol.</p>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto pr-2 flex-1 min-h-0">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 overflow-y-auto max-h-[50vh] md:max-h-none pr-2">
                     {[
                         { icon: Zap, title: "Accelerated Liquidity", text: "Create an emotional connection instantly, reducing time-to-offer." },
                         { icon: Globe, title: "Global Appeal", text: "Tailored atmosphere to target specific international buyer demographics." },
@@ -258,10 +256,9 @@ const PartnerDeck: React.FC = () => {
   };
 
   return (
-    // h-[100dvh] garante que ocupa o ecrã exato do telemóvel
     <div className="bg-black h-[100dvh] text-white overflow-hidden relative font-sans flex flex-col">
         
-        {/* Main Content Area */}
+        {/* Slides Area */}
         <div className="flex-1 w-full relative overflow-hidden">
             <AnimatePresence mode="wait">
                 <motion.div

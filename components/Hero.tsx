@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mouse, ArrowDown, ShieldCheck, Globe, Lock } from 'lucide-react';
+import { ArrowDown, ShieldCheck, Globe, Lock } from 'lucide-react';
 
 const Hero: React.FC = () => {
   return (
@@ -23,10 +23,10 @@ const Hero: React.FC = () => {
           100% { left: 0%; }
         }
         .animate-scanner-clip {
-          animation: scan-clip 5s ease-in-out infinite;
+          animation: scan-clip 6s ease-in-out infinite;
         }
         .animate-scanner-line {
-          animation: scan-line 5s ease-in-out infinite;
+          animation: scan-line 6s ease-in-out infinite;
         }
       `}</style>
 
@@ -34,10 +34,10 @@ const Hero: React.FC = () => {
         
         <div className="flex flex-col lg:grid lg:grid-cols-12 h-full lg:h-auto gap-6 lg:gap-16 pb-6 lg:pb-0">
             
-            {/* TEXT SECTION - Institutional Tone */}
+            {/* TEXT SECTION */}
             <div className="lg:col-span-5 flex flex-col justify-end lg:justify-center items-start lg:h-full z-20 shrink-0">
                 
-                {/* Brand Tag - Minimalist */}
+                {/* Brand Tag */}
                 <div className="flex items-center gap-3 mb-6 opacity-0 animate-slide-up">
                     <div className="w-8 h-[1px] bg-neon"></div>
                     <span className="text-gray-400 dark:text-gray-500 text-[9px] font-bold uppercase tracking-[0.3em]">
@@ -45,7 +45,7 @@ const Hero: React.FC = () => {
                     </span>
                 </div>
                 
-                {/* Headline - Focus on Valuation */}
+                {/* Headline */}
                 <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-dark dark:text-white leading-[1.05] mb-6 tracking-tight opacity-0 animate-slide-up-delay-1">
                     The Global Standard in <br/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon via-dark to-neon dark:via-white dark:to-neon bg-[length:200%_auto] animate-shine">
@@ -53,12 +53,12 @@ const Hero: React.FC = () => {
                     </span>
                 </h1>
 
-                {/* Subheader - Technical & Exclusive */}
+                {/* Subheader */}
                 <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base lg:text-lg max-w-md mb-8 font-light leading-relaxed opacity-0 animate-slide-up-delay-2">
                     We apply advanced optical engineering to maximize the market command of extraordinary vessels. Exclusively for elite brokerages.
                 </p>
 
-                {/* NO AGGRESSIVE CTA - Just a subtle scroll indicator */}
+                {/* Scroll Indicator */}
                 <button 
                     onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
                     className="group flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-dark dark:text-white opacity-0 animate-slide-up-delay-2 hover:text-neon transition-colors"
@@ -70,14 +70,16 @@ const Hero: React.FC = () => {
                 </button>
             </div>
 
-            {/* VISUAL SECTION - The "Evidence" */}
+            {/* VISUAL SECTION */}
             <div className="lg:col-span-7 w-full flex-grow lg:flex-grow-0 lg:h-full flex items-center justify-center relative min-h-0 opacity-0 animate-fade-in delay-500">
                 <div className="relative w-full h-full lg:aspect-[16/9] rounded-sm overflow-hidden border border-dark/5 dark:border-white/10 shadow-2xl bg-[#0a0a0a]">
                     
-                    {/* Background (Valuated State) */}
+                    {/* Background (Valuated State / AFTER) */}
                     <img 
                         src="/images/img12.jpeg" 
                         alt="MVS Standard"
+                        fetchPriority="high" // SPEED FIX
+                        loading="eager"      // SPEED FIX
                         className="absolute inset-0 w-full h-full object-cover saturate-[1.1]" 
                     />
                      
@@ -87,15 +89,18 @@ const Hero: React.FC = () => {
                         Market Ready
                     </div>
 
-                    {/* Foreground (Raw State) - Clipped */}
+                    {/* Foreground (Raw State / BEFORE) - Clipped */}
+                    {/* AQUI ESTÁ A ALTERAÇÃO: Removi 'grayscale' e 'opacity-80' */}
                     <div className="absolute inset-0 animate-scanner-clip bg-gray-100 dark:bg-[#050505]">
                         <img 
                             src="/images/img77.png" 
                             alt="Raw Asset"
-                            className="w-full h-full object-cover grayscale opacity-80" 
+                            fetchPriority="high" // SPEED FIX
+                            loading="eager"      // SPEED FIX
+                            className="w-full h-full object-cover" 
                         />
                          {/* Badge: BEFORE */}
-                         <div className="absolute top-6 left-6 border border-dark/10 dark:border-white/10 bg-white/80 dark:bg-black/80 text-dark/50 dark:text-white/50 text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm backdrop-blur-md">
+                         <div className="absolute top-6 left-6 border border-dark/10 dark:border-white/10 bg-white/90 dark:bg-black/80 text-dark dark:text-white text-[8px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-sm backdrop-blur-md shadow-md">
                             Raw Asset Data
                         </div>
                     </div>
@@ -103,7 +108,7 @@ const Hero: React.FC = () => {
                     {/* Scanner Line */}
                     <div className="absolute inset-y-0 w-[1px] bg-neon shadow-[0_0_20px_rgba(204,243,129,0.8)] z-30 animate-scanner-line"></div>
 
-                    {/* Metrics Overlay - Institutional Data */}
+                    {/* Metrics Overlay */}
                     <div className="absolute bottom-0 left-0 right-0 bg-white/90 dark:bg-[#050505]/90 border-t border-dark/5 dark:border-white/5 p-4 lg:p-6 flex justify-between items-end backdrop-blur-sm">
                          <div className="flex gap-6 sm:gap-12 w-full justify-start">
                              <div>
@@ -127,12 +132,6 @@ const Hero: React.FC = () => {
             </div>
 
         </div>
-      </div>
-      
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 opacity-50 animate-pulse">
-        <span className="text-[8px] uppercase tracking-[0.2em] text-gray-400">Scroll</span>
-        <Mouse className="w-4 h-4 text-gray-400" />
       </div>
     </section>
   );

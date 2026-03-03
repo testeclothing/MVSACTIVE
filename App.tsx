@@ -54,6 +54,9 @@ const App: React.FC = () => {
 
           {/* 4. Prova de Qualidade (Zoom Infinito) - NOVO */}
           <ExtremeDetail />
+
+             {/* PROVA DE AUTENTICIDADE */}
+          <AccuracyGuarantee /> 
           
           {/* 5. Perguntas Frequentes */}
           <FAQ />

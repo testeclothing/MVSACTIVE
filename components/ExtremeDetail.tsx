@@ -198,7 +198,7 @@ const ExtremeDetail: React.FC = () => {
                 onTouchEnd={handleEnd}
             >
                 <img 
-                    src="/images/img100.png" 
+                    src="/images/300.jpg" 
                     alt="High Resolution Analysis" 
                     draggable={false}
                     className="w-full h-full object-cover select-none pointer-events-none"

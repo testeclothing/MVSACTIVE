@@ -12,7 +12,7 @@ const modules = [
     // Antes: Imagem antiga de armazém (mantém ou substitui pela tua "raw")
     imageBefore: '/images/img11.png', 
     // Depois: A tua nova foto exterior do Aquila
-    imageAfter: '/images/img100.png',
+    imageAfter: '/images/img100.jpg',
     description: 'Proprietary isolation algorithm. We extract the vessel from shipyard cradles and composite it into a physics-accurate marine environment.',
   },
   {
@@ -24,7 +24,7 @@ const modules = [
     // Antes: Imagem antiga nublada
     imageBefore: '/images/img22.png',
     // Depois: A tua nova foto do posto de comando
-    imageAfter: '/images/img102.png',
+    imageAfter: '/images/img102.jpg',
     description: 'Horizon calibration. We replace marina obstructions visible through the helm windows with a seamless, infinite ocean view.',
   },
   {
@@ -48,7 +48,7 @@ const modules = [
     // Antes: Imagem antiga escura
     imageBefore: '/images/img44.png',
     // Depois: A tua nova foto dos ecrãs Garmin
-    imageAfter: '/images/105.png',
+    imageAfter: '/images/105.jpg',
     description: 'Digital system activation. We illuminate navigation screens and control panels to demonstrate operational readiness without powering up the vessel.',
   },
   {

@@ -86,7 +86,7 @@ const AccuracyGuarantee: React.FC = () => {
                 <div 
                     className="absolute inset-0 w-full h-full transition-transform duration-100 ease-out"
                     style={{
-                        backgroundImage: `url('/images/100.jpg')`, // <--- ALTERADO: Imagem Final
+                        backgroundImage: `url('/images/img100.jpg')`, // <--- ALTERADO: Imagem Final
                         backgroundSize: '300%', // Zoom level igual
                         backgroundPosition: `${position.x}% ${position.y}%`
                     }}

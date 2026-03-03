@@ -1,57 +1,67 @@
 import React, { useState } from 'react';
 import { Layers, Droplets, Sun, Moon, Eraser, ScanLine } from 'lucide-react';
-import ComparisonSlider from './ComparisonSlider'; // <--- O NOSSO NOVO COMPONENTE
+import ComparisonSlider from './ComparisonSlider';
 
 const modules = [
   {
     id: 'hull',
     label: 'Oceanic Relocation',
     icon: Droplets,
-    beforeLabel: 'Dry Dock Data',
-    afterLabel: 'Deployed Asset',
-    imageBefore: '/images/img11.png',
-    imageAfter: '/images/img1.jpeg',
+    beforeLabel: 'Dry Dock / Warehouse',
+    afterLabel: 'Pacific Cruising',
+    // Antes: Imagem antiga de armazém (mantém ou substitui pela tua "raw")
+    imageBefore: '/images/img11.png', 
+    // Depois: A tua nova foto exterior do Aquila
+    imageAfter: '/images/img100.png',
     description: 'Proprietary isolation algorithm. We extract the vessel from shipyard cradles and composite it into a physics-accurate marine environment.',
   },
   {
     id: 'weather',
-    label: 'Atmospheric Precision',
+    label: 'Bridge Perspective', // Mudado para combinar com a foto do comando
     icon: Sun,
-    beforeLabel: 'Overcast Source',
-    afterLabel: 'Solar Calibrated',
+    beforeLabel: 'Obstructed View',
+    afterLabel: 'Clear Horizon',
+    // Antes: Imagem antiga nublada
     imageBefore: '/images/img22.png',
-    imageAfter: '/images/img2.jpeg',
-    description: 'Full environmental recalibration. We eliminate flat lighting and synthesize specific solar coordinates to maximize hull reflectivity.',
+    // Depois: A tua nova foto do posto de comando
+    imageAfter: '/images/img102.png',
+    description: 'Horizon calibration. We replace marina obstructions visible through the helm windows with a seamless, infinite ocean view.',
   },
   {
     id: 'interior',
     label: 'Interior Modernization',
     icon: Layers,
-    beforeLabel: 'Dated Interior',
-    afterLabel: 'Refitted Space',
-    imageBefore: '/images/33img.png',
-    imageAfter: '/images/img3.jpeg',
-    description: 'Digital refit capabilities. We neutralize signs of wear, declutter surfaces, and stage high-end lifestyle elements to align with modern design codes.',
+    beforeLabel: 'Factory Lighting',
+    afterLabel: 'Lifestyle Ambience',
+    // Antes: Imagem antiga interior
+    imageBefore: '/images/104.png',
+    // Depois: A tua nova foto da sala/mesa
+    imageAfter: '/images/aquila_salon.jpg',
+    description: 'Ambiance correction. We adjust color temperature and lighting to showcase the warmth and volume of the living spaces.',
   },
   {
-    id: 'twilight',
-    label: 'Nocturnal Activation',
+    id: 'systems',
+    label: 'Systems Activation', // Mudado para combinar com a foto dos ecrãs
     icon: Moon,
-    beforeLabel: 'Daylight Raw',
-    afterLabel: 'Evening Mood',
+    beforeLabel: 'Powered Off',
+    afterLabel: 'Active Navigation',
+    // Antes: Imagem antiga escura
     imageBefore: '/images/img44.png',
-    imageAfter: '/images/img4.jpeg',
-    description: 'Light system simulation. We digitally activate underwater and deck lighting to create the "Evening Entertainment" atmosphere from standard daylight data.',
+    // Depois: A tua nova foto dos ecrãs Garmin
+    imageAfter: '/images/105.png',
+    description: 'Digital system activation. We illuminate navigation screens and control panels to demonstrate operational readiness without powering up the vessel.',
   },
   {
-    id: 'eraser',
-    label: 'Visual Integrity',
+    id: 'flow',
+    label: 'Indoor-Outdoor Flow', // Mudado para combinar com a foto da popa
     icon: Eraser,
-    beforeLabel: 'Visual Noise',
-    afterLabel: 'Pristine Asset',
-    imageBefore: '/images/img55.png',
-    imageAfter: '/images/img5.jpeg',
-    description: 'AI-driven removal of fenders, hoses, and neighboring vessels to isolate the asset in its purest architectural form.',
+    beforeLabel: 'Marina Clutter',
+    afterLabel: 'Open Water',
+    // Antes: Imagem antiga com vizinhos
+    imageBefore: '/images/img103.png',
+    // Depois: A tua nova foto a olhar para trás
+    imageAfter: '/images/aquila_aft.jpg',
+    description: 'Visual continuity. We erase neighboring boats and concrete docks to create a seamless connection between the aft-deck and the ocean.',
   },
 ];
 
@@ -92,12 +102,12 @@ const DigitalStaging: React.FC = () => {
                 {/* 1. The Viewport (SLIDER INTERATIVO) */}
                 <div className="relative w-full aspect-[4/3] lg:aspect-[21/9] bg-[#050505] rounded-sm border border-gray-200 dark:border-white/10 shadow-2xl overflow-hidden group">
                     
-                    {/* Top HUD Bar - Technical Overlay */}
+                    {/* Top HUD Bar */}
                     <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black/90 to-transparent z-30 flex justify-between items-center px-6 pointer-events-none">
                         <div className="flex items-center gap-3">
                              <ScanLine className="w-3 h-3 text-neon opacity-80" />
                              <span className="text-[9px] font-mono text-white/70 uppercase tracking-widest border-l border-white/20 pl-3">
-                                Active Module: {activeModule.label}
+                                Module: {activeModule.label}
                              </span>
                         </div>
                         {/* Status Lights */}
@@ -107,10 +117,10 @@ const DigitalStaging: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* AQUI ESTÁ A MUDANÇA: O Slider em vez das imagens estáticas */}
+                    {/* SLIDER COMPONENT */}
                     <div className="absolute inset-0 w-full h-full">
                         <ComparisonSlider 
-                            key={activeModule.id} // Força o reset quando mudas de módulo
+                            key={activeModule.id}
                             imageBefore={activeModule.imageBefore}
                             imageAfter={activeModule.imageAfter}
                             labelBefore={activeModule.beforeLabel}
